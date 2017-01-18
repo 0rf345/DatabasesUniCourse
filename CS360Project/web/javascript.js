@@ -8,15 +8,15 @@ function loginPOST() {
     var usern = $("#usern").val();
     var userp = $("#userp").val();
     var xhr = new XMLHttpRequest();
-    alert("a");
     xhr.open('POST', 'login?usern=' + usern + '&userp=' + userp);
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
             if(xhr.responseText === "authenticated") {
-                
+                alert("authorized");
+                $("body").html("LOGGED IN");
             }else{
-                $(body).html("GET OUTTA TOWN");
+                alert("unauthorized");
             }
         }
     };
