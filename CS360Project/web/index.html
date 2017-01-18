@@ -9,17 +9,19 @@ and open the template in the editor.
     <head>
         <title>CS360 Project of team: Power Puff Girls</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src = "javascript.js"></script>
     </head>
     <body>
         <div><h1>This is going to be a basic login page.</h1></div>
-        
+      
         <form>
             <span>
-                <input type="text" placeholder="username" />
-                <input type="password" placeholder="password" />
+                <input id="usern" type="text" placeholder="username" />
+                <input id="userp" type="password" placeholder="password" />
             </span>
                 
-            <input type="submit" value="Login"/>
+            <input type="submit" onclick="loginPOST()" value="Login" />
         </form>
     </body>
 </html>
