@@ -20,6 +20,9 @@ function loginPOST() {
             }
         }
     };
+    
+    xhr.setRequestHeader('ContentType','application/x-www-form-urlencoded');
+    xhr.send();
 }
 
 
