@@ -21,3 +21,8 @@ function loginPOST() {
         }
     };
 }
+
+
+function registerPage() {
+    window.location.href = "register.html";
+}

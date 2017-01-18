@@ -9,11 +9,13 @@ and open the template in the editor.
     <head>
         <title>CS360 Project of team: Power Puff Girls</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <script type="text/javascript" src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script type="text/javascript" src = "javascript.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="javascript.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />        
     </head>
+    
     <body>
-        <div><h1>This is going to be a basic login page.</h1></div>
+        <div><h1>Login with your CCC credentials or Register!</h1></div>
       
         <form>
             <span>
@@ -23,5 +25,9 @@ and open the template in the editor.
                 
             <input type="submit" onclick="loginPOST()" value="Login" />
         </form>
+        
+        <div id="register">
+            <input type="button" onclick="registerPage()" value="Register new account" />
+        </div>
     </body>
 </html>
