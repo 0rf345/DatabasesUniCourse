@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.ppg.cs360proj;
+package edu.ppg.cs360proj.cs360db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author looselyrigorous
+ * @author Constantine Kalivas
  */
 public class DBCommon {
 	private static final String URL = "jdbc:mysql://SERVER_URL_HERE";

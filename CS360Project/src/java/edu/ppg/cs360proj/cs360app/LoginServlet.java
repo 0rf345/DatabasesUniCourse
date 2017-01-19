@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.ppg.cs360proj;
+package edu.ppg.cs360proj.cs360app;
 
 import java.io.IOException;
 import java.io.PrintWriter;
