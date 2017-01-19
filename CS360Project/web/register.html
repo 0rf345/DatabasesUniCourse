@@ -1,16 +1,91 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Register Page</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CS360 Project of team: Power Puff Girls</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="javascript.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />        
     </head>
+    
     <body>
-        <div>TODO write content</div>
+        
+        <!--
+        <div><h1>Login with your CCC credentials or Register!</h1></div>
+      
+            <span>
+                <input id="usern" type="text" placeholder="username" />
+                <input id="userp" type="password" placeholder="password" />
+            </span>
+                
+            <input type="submit" onclick="loginPOST()" value="Login" />
+
+        
+        <div id="register">
+            <input type="button" onclick="registerPage()" value="Register new account" />
+        </div>
+        -->
+        
+        <div name="login-form" class="login-form" >
+	
+		<div class="header">
+		<h1>Welcome to the CCC</h1>
+                <span>Your money is our business.</span><p>
+                <span>Please input your credentials to register.</span>
+		</div>
+	
+		<div class="content">
+		<input id="usern" name="usern" type="text" class="input username" placeholder="Username" />
+                <input id="userp" name="userp" type="password" class="input password" placeholder="Password" />
+                
+                
+                <p><input type="radio" name="accountType" value="individual" /> Individual</p>
+                <p><input type="radio" name="accountType" value="merchant" /> Merchant</p>
+                <p><input type="radio" name="accountType" value="company" /> Company</p>
+                <div id="companyStuff" hidden>
+                    <p><label>Number of employees to use your card</label>
+                        <input id="howMany" type="number" min="1" max="5" value="0" required />
+                    </p>
+                    <div id="namesss"></div>
+                </div>
+                <script type="text/javascript">
+                    $('input:radio[name="accountType"]').change(
+                        function(){
+                            if ($('input[name="accountType"]:checked').val() === 'company') {
+                                alert("You are a company");
+                                $("#companyStuff").show();
+                            }
+                        }
+                    );
+                    $("#howMany").change(
+                        function() {
+                            var num = $("#howMany").val();
+                            $("#namesss").html("");
+                            var str = "";
+                            for(var i = 0; i < num; i++) {
+                                str += "Employee #" + (i+1);
+                                str += "<p><input id=\"emp"+i+"\" type=\"text\" placeholder=\"Full Name of Employee\"/></p>";
+                                str += "<p>";
+                            }
+                            $("#namesss").html(str);
+                        }
+                    );
+                </script>
+                
+		</div>
+
+		<div class="footer">
+                    <button class="button" onclick="loginPage()">Login Page</button>
+                    <button class="button" onclick="registerPOST()">Register</button>
+		</div>
+	
+	</div>
+        
     </body>
 </html>
