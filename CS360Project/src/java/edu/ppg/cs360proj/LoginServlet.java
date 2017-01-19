@@ -21,33 +21,33 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res)
-	throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse res)
+		throws ServletException, IOException {
 	HttpSession session = req.getSession(false);
 	if(session != null)
-	    res.sendRedirect("/index.html");
+		res.sendRedirect("/index.html");
 	else
-	    res.sendRedirect("/login.html");
-    }
+		res.sendRedirect("/login.html");
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 	throws ServletException, IOException {
 
-	res.setContentType("text/html;charset=UTF-8");
-	String user = req.getParameter("usern");
-	String password = req.getParameter("userp");
+		res.setContentType("text/html;charset=UTF-8");
+		String user = req.getParameter("usern");
+		String password = req.getParameter("userp");
 
-	final PrintWriter out = res.getWriter();
-	if(user.equals("cs360") && password.equals("cs360")) {
-	    HttpSession session = req.getSession();
-	    session.setAttribute("usern", user);
-		out.print("authenticated");
-	} else {
-	    out.print("unauthorized");
+		final PrintWriter out = res.getWriter();
+		if(user.equals("cs360") && password.equals("cs360")) {
+			HttpSession session = req.getSession();
+			session.setAttribute("usern", user);
+			out.print("authenticated");
+		} else {
+			out.print("unauthorized");
+		}
+
+		out.close();
 	}
-	
-	out.close();
-    }
 }
