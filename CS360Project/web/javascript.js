@@ -6,7 +6,7 @@
 
 function loginPOST() {
     var usern = $("#usern").val();
-    var userp = $("#userp").val();
+    var userp = sha1($("#userp").val());
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'login?usern=' + usern + '&userp=' + userp);
     xhr.onload = function() {
@@ -29,7 +29,8 @@ function loginPOST() {
 function registerPOST() {
     // Every client
     var usern = $("#usern").val();
-    var userp = $("#userp").val();
+    var userp = sha1($("#userp").val());
+    alert(userp);
     var name  = $("#clientName").val();
 
     // Company Specific
