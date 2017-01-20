@@ -154,7 +154,7 @@ CONTENT
 }
 
 /* Second input field */
-.login-form .content .password, .login-form .content {
+.login-form .content, .login-form .content {
 	margin-top: 25px;
         margin-bottom: 25px;
 }

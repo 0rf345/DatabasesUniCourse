@@ -10,6 +10,7 @@ and open the template in the editor.
         <title>CS360 Project of team: Power Puff Girls</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="sha1.js"></script>
         <script type="text/javascript" src="javascript.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css" />        
     </head>
@@ -41,8 +42,9 @@ and open the template in the editor.
 		</div>
 	
 		<div class="content">
-		<input id="usern" name="usern" type="text" class="input username" placeholder="Username" />
-                <input id="userp" name="userp" type="password" class="input password" placeholder="Password" />
+		<input id="usern" type="text" class="input" placeholder="Username" required/>
+                <input id="userp" type="password" class="input" placeholder="Password" required />
+                <input id="clientName" type="text" class="input" placeholder="John Doe" required />
                 
                 
                 <p><input type="radio" name="accountType" value="individual" /> Individual</p>
@@ -58,7 +60,6 @@ and open the template in the editor.
                     $('input:radio[name="accountType"]').change(
                         function(){
                             if ($('input[name="accountType"]:checked').val() === 'company') {
-                                alert("You are a company");
                                 $("#companyStuff").show();
                             }
                         }
@@ -70,7 +71,8 @@ and open the template in the editor.
                             var str = "";
                             for(var i = 0; i < num; i++) {
                                 str += "Employee #" + (i+1);
-                                str += "<p><input id=\"emp"+i+"\" type=\"text\" placeholder=\"Full Name of Employee\"/></p>";
+                                str += "<p><input id=\"first"+i+"\" type=\"text\" placeholder=\"First name\" required />";
+                                str += "<input id=\"last"+i+"\" type=\"text\" placeholder=\"Last name\" required /></p>";
                                 str += "<p>";
                             }
                             $("#namesss").html(str);

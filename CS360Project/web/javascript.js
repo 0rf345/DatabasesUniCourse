@@ -6,7 +6,7 @@
 
 function loginPOST() {
     var usern = $("#usern").val();
-    var userp = $("#userp").val();
+    var userp = sha1($("#userp").val());
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'login?usern=' + usern + '&userp=' + userp);
     xhr.onload = function() {
@@ -27,18 +27,32 @@ function loginPOST() {
 }
 
 function registerPOST() {
+    // Every client
     var usern = $("#usern").val();
-    var userp = $("#userp").val();
+    var userp = sha1($("#userp").val());
+    alert(userp);
+    var name  = $("#clientName").val();
+
+    // Company Specific
+    var firsts = {};
+    var lasts = {}; 
+    if ($('input[name="accountType"]:checked').val() === 'company') {
+        var num = $("#howMany").val();
+        for(var i = 0; i < num; i++) {
+            firsts[i] = $("#first"+i).val();
+            lasts[i] = $("#last"+i).val();
+        }
+    }
+    
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'register?usern=' + usern + '&userp=' + userp);
+    xhr.open('POST', 'register?usern=' + usern + '&userp=' + userp + '&name=' + name);
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
-            if(xhr.responseText === "authenticated") {
-                alert("authorized");
-                $("body").html("LOGGED IN");
+            if(xhr.responseText === "OK") {
+                $("body").html("SUCCESS registering new account");
             }else{
-                alert("unauthorized");
+                $("body").html("Something went terribly wrong");
             }
         }
     };
