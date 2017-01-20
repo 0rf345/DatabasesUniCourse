@@ -1,137 +1,48 @@
 /**
-
-*
-
-*  Secure Hash Algorithm (SHA1)
-
-*  http://www.webtoolkit.info/
-
-*
-
-**/
-
-function sha1 (msg) {
-
- 
-
+ *      Secure Hash Algorithm (SHA1)
+ *      http://www.webtoolkit.info/
+ *      
+ * @param {type} msg to be hashed
+ * @returns {unresolved}
+ */
+function sha1(msg) {
 
     function rotate_left(n,s) {
-
-
         var t4 = ( n<<s ) | (n>>>(32-s));
-
-
         return t4;
-
-
     };
-
- 
-
 
     function lsb_hex(val) {
-
-
         var str="";
-
-
         var i;
-
-
         var vh;
-
-
         var vl;
-
- 
-
-
         for( i=0; i<=6; i+=2 ) {
-
-
             vh = (val>>>(i*4+4))&0x0f;
-
-
             vl = (val>>>(i*4))&0x0f;
-
-
             str += vh.toString(16) + vl.toString(16);
-
-
         }
-
-
         return str;
-
-
     };
-
- 
-
 
     function cvt_hex(val) {
-
-
         var str="";
-
-
         var i;
-
-
         var v;
-
- 
-
-
         for( i=7; i>=0; i-- ) {
-
-
             v = (val>>>(i*4))&0x0f;
-
-
             str += v.toString(16);
-
-
         }
-
-
         return str;
-
-
     };
 
- 
-
- 
-
-
     function Utf8Encode(string) {
-
-
         string = string.replace(/\r\n/g,"\n");
-
-
         var utftext = "";
-
- 
-
-
         for (var n = 0; n < string.length; n++) {
-
- 
-
-
             var c = string.charCodeAt(n);
-
- 
-
-
             if (c < 128) {
-
-
                 utftext += String.fromCharCode(c);
-
-
             }
 
 
