@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Project for UoC's CS360 Class
+ * Authors:
+ * Constantine Kalivas <csd3203@csd.uoc.gr>
+ * Orpheus Kalipolitis <csd3285@csd.uoc.gr>
+ * Olympia Ksanthaki <xanthaki@csd.uoc.gr>
  */
 package edu.ppg.cs360proj.cs360app;
 
