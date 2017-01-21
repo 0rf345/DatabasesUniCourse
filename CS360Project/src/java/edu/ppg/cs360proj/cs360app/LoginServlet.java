@@ -9,6 +9,7 @@ package edu.ppg.cs360proj.cs360app;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.BufferedReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,10 +17,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author looselyrigorous
- */
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+class LoginRequest {
+	@SerializedName("usern")
+	private String usern;
+	@SerializedName("userp")
+	private String userp;
+
+	public String getUserName() {
+		return usern;
+	}
+
+	public String getUserPass() {
+		return userp;
+	}
+
+	public void setUserName(String usern) {
+		this.usern = usern;
+	}
+
+	public void setUserPass(String userp) {
+		this.userp = userp;
+	}
+
+	public LoginRequest(String usern, String userp) {
+		this.usern = usern;
+		this.userp = userp;
+	}
+}
+
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
@@ -36,15 +67,25 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 	throws ServletException, IOException {
-
 		res.setContentType("text/html;charset=UTF-8");
-		String user = req.getParameter("usern");
-		String password = req.getParameter("userp");
+		
+		StringBuffer jb = new StringBuffer();
+		String line = null;
+		try {
+			BufferedReader reader = req.getReader();
+			while ((line = reader.readLine()) != null)
+				jb.append(line);
+		} catch (IOException ex) {
+			Logger.getLogger("cs360app.LoginServlet").log(Level.SEVERE, null, ex);
+		}
+
+		Gson gson = new Gson();
+		LoginRequest lq = gson.fromJson(jb.toString(), LoginRequest.class);
 
 		final PrintWriter out = res.getWriter();
-		if(user.equals("cs360") && password.equals("cs360")) {
+		if(lq.getUserName().equals("cs360") && lq.getUserPass().equals("cs360")) {
 			HttpSession session = req.getSession();
-			session.setAttribute("usern", user);
+			session.setAttribute("usern", lq.getUserName());
 			out.print("authenticated");
 		} else {
 			out.print("unauthorized");
