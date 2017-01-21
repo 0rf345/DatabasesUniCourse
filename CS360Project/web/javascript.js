@@ -173,6 +173,8 @@ function deleteMePOST() {
     xhr.send(request);
 }
 
+// CCC specific functions
+
 /**
  * Should show clients that are in good sanding towards CCC
  * @returns {undefined}
@@ -210,6 +212,33 @@ function badClientsPOST() {
 
     var request = JSON.stringify(object);
     var url = "badStanding";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                // parse JSON response from back-end
+                $("body").html("");
+            }else{
+                $("body").html("ERROR");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+/**
+ * Give 5% discount to best merchant by CCC
+ * @returns {undefined}
+ */
+function discountPOST() {
+    var object = new Object();
+
+    var request = JSON.stringify(object);
+    var url = "discount";
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
