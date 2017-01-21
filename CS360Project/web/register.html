@@ -44,15 +44,16 @@ and open the template in the editor.
 		<div class="content">
 		<input id="usern" type="text" class="input" placeholder="Username" required/>
                 <input id="userp" type="password" class="input" placeholder="Password" required />
-                <input id="clientName" type="text" class="input" placeholder="John Doe" required />
-                
+                <input id="first" type="text" class="input" placeholder="John" required />
+                <input id="last" type="text" class="input" placeholder="Doe" required />
+                <input id="name" type="text" class="input" placeholder="Name of company" required hidden />
                 
                 <p><input type="radio" name="accountType" value="individual" /> Individual</p>
                 <p><input type="radio" name="accountType" value="merchant" /> Merchant</p>
                 <p><input type="radio" name="accountType" value="company" /> Company</p>
                 <div id="companyStuff" hidden>
                     <p><label>Number of employees to use your card</label>
-                        <input id="howMany" type="number" min="1" max="5" value="0" required />
+                        <input id="howMany" type="number" min="1" max="255" value="0" required />
                     </p>
                     <div id="namesss"></div>
                 </div>
@@ -60,7 +61,15 @@ and open the template in the editor.
                     $('input:radio[name="accountType"]').change(
                         function(){
                             if ($('input[name="accountType"]:checked').val() === 'company') {
+                                $("#first").hide();
+                                $("#last").hide();
+                                $("#name").show();
                                 $("#companyStuff").show();
+                            }else{
+                                $("#name").hide();
+                                $("#first").show();
+                                $("#last").show();
+                                $("#companyStuff").hide();
                             }
                         }
                     );
