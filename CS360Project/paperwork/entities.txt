@@ -1,15 +1,14 @@
 Client:
-username, password, accountNo, name, expDate, creditLimit, currentDebt, availableCredit
+username, password, accountNo, expDate, creditLimit, currentDebt, availableCredit
 
 Individual:
-username(same as above)
+(client fields), fname, lname
 
 Merchant:
-username(same as above), commission, profit
+(individual fields), commission, profit
 
 Company:
-username(same as above), employeeID(could be 1 or more)
+(client fields), employeeID(could be 1 or more)
 
 Transaction:
-transactionID, clientUsername, merchantUsername, clientName, merchantName, dateOfTransaction, amount, 
-charge(boolean flag for either charge or debit transaction)
+transactionID, clientAccNo, merchantAccNo, dateOfTransaction, amount, isCharge
