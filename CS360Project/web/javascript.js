@@ -13,9 +13,10 @@ function loginPOST() {
     object.userp = userp;
     
     var request = JSON.stringify(object);
+    var url = "login";
     
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'login?'+request);
+    xhr.open('POST', url, true);
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
@@ -30,7 +31,7 @@ function loginPOST() {
     };
     
     xhr.setRequestHeader('ContentType','application/json');
-    xhr.send();
+    xhr.send(request);
 }
 
 function registerPOST() {
