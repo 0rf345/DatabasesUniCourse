@@ -174,3 +174,27 @@ function deleteMePOST() {
     xhr.setRequestHeader('ContentType','application/json');
     xhr.send(request);
 }
+
+function goodClientsPOST() {
+    var object = new Object();
+
+    var request = JSON.stringify(object);
+    var url = "goodStanding";
+    alert(request);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                // parse JSON response from back-end
+                $("body").html("");
+            }else{
+                $("body").html("ERROR");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
