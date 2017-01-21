@@ -5,6 +5,14 @@
  */
 
 function loginPOST() {
+    if(document.getElementById("usern").checkValidity() === false) {
+        alert("Please input username");
+        return;
+    }else if(document.getElementById("userp").checkValidity() === false) {
+        alert("Please input password");
+        return;
+    }
+    
     var usern = $("#usern").val();
     var userp = sha1($("#userp").val());
     
