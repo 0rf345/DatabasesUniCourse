@@ -114,6 +114,7 @@ function registerPOST() {
     object.usern = usern;
     object.userp = userp;
     object.client= client;
+    object.action= "register";
     
     var request = JSON.stringify(object);
     var url = "register";
@@ -144,4 +145,32 @@ function registerPage() {
 
 function loginPage() {
     window.location.href = "index.html";
+}
+
+/**
+ * Delete active user IF no debt
+ * @returns {undefined}
+ */
+function deleteMePOST() {
+    var object = new Object();
+    object.action= "unregister";
+    
+    var request = JSON.stringify(object);
+    var url = "register";
+    alert(request);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                $("body").html("SUCCESS deletion of account");
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
 }
