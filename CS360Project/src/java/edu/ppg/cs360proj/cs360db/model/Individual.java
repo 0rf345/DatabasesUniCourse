@@ -35,9 +35,9 @@ public class Individual extends Client {
 	}
 
 	public Individual(String fname, String lname, String clientName, String clientPass,
-			String accountNo, String expDate, Integer creditLimit, Integer currentDebt,
+			String accountID, String expDate, Integer creditLimit, Integer currentDebt,
 			Integer availableCredit) {
-		super(clientName, clientPass, accountNo, expDate, creditLimit, currentDebt, availableCredit);
+		super(clientName, clientPass, accountID, expDate, creditLimit, currentDebt, availableCredit);
 		this.fName = fname;
 		this.lName = lname;
 	}

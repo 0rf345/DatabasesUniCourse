@@ -37,9 +37,9 @@ public class Company extends Client {
 	}
 
 	public Company(String companyName, HashMap<Integer, String> employees,
-			String clientName, String clientPass, String accountNo, String expDate,
+			String clientName, String clientPass, String accountID, String expDate,
 			Integer creditLimit, Integer currentDebt, Integer availableCredit) {
-		super(clientName, clientPass, accountNo, expDate, creditLimit, currentDebt, availableCredit);
+		super(clientName, clientPass, accountID, expDate, creditLimit, currentDebt, availableCredit);
 		this.companyName = companyName;
 		this.employees = employees;
 	}

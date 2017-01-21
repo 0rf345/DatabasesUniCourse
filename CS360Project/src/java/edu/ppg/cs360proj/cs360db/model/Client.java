@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Client implements Serializable {
 	private String clientUName;
 	private String clientPass;
-	private String accountNo;
+	private String accountID;
 	private String expDate;
 	private Integer creditLimit;
 	private Integer currentDebt;
@@ -26,8 +26,8 @@ public class Client implements Serializable {
 		return clientPass;
 	}
 
-	public String getAccountNo() {
-		return accountNo;
+	public String getAccountID() {
+		return accountID;
 	}
 
 	public String getExpDate() {
@@ -54,8 +54,8 @@ public class Client implements Serializable {
 		this.clientPass = clientPass;
 	}
 
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
+	public void setAccountID(String accountID) {
+		this.accountID = accountID;
 	}
 
 	public void setExpDate(String expDate) {
@@ -77,7 +77,7 @@ public class Client implements Serializable {
 	public Client() {
 		this.clientUName = "";
 		this.clientPass = "";
-		this.accountNo = "";
+		this.accountID = "";
 		this.expDate = null;
 		this.creditLimit = 0;
 		this.currentDebt = 0;
@@ -87,7 +87,7 @@ public class Client implements Serializable {
 	public Client(String clientName, String clientPass, String accountNo, String expDate, Integer creditLimit, Integer currentDebt, Integer availableCredit) {
 		this.clientUName = clientName;
 		this.clientPass = clientPass;
-		this.accountNo = accountNo;
+		this.accountID = accountNo;
 		this.expDate = expDate;
 		this.creditLimit = creditLimit;
 		this.currentDebt = currentDebt;
@@ -96,6 +96,6 @@ public class Client implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Client{" + "clientName=" + clientUName + ", clientPass=" + clientPass + ", accountNo=" + accountNo + ", expDate=" + expDate + ", creditLimit=" + creditLimit + ", currentDebt=" + currentDebt + ", availableCredit=" + availableCredit + '}';
+		return "Client{" + "clientName=" + clientUName + ", clientPass=" + clientPass + ", accountNo=" + accountID + ", expDate=" + expDate + ", creditLimit=" + creditLimit + ", currentDebt=" + currentDebt + ", availableCredit=" + availableCredit + '}';
 	}
 }
