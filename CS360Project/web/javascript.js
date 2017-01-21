@@ -38,22 +38,40 @@ function registerPOST() {
     // Every client
     var usern = $("#usern").val();
     var userp = sha1($("#userp").val());
-    alert(userp);
+    var client= $('input[name="accountType"]:checked').val();
+    
     var name  = $("#clientName").val();
-
+    var object = new Object();
+    
     // Company Specific
     var firsts = {};
     var lasts = {}; 
-    if ($('input[name="accountType"]:checked').val() === 'company') {
+    var comp = "";
+    if (client === 'company') {
         var num = $("#howMany").val();
+        object.num = num;
+        var arr = {};
         for(var i = 0; i < num; i++) {
             firsts[i] = $("#first"+i).val();
             lasts[i] = $("#last"+i).val();
+            var obj = new Object();
+            obj.first = firsts[i];
+            obj.last = lasts[i];
+            arr[i] = obj;
         }
+        object.employees = arr;
     }
     
+    object.name = name;
+    object.usern = usern;
+    object.userp = userp;
+    object.client= client;
+    
+    var request = JSON.stringify(object);
+    var url = "register";
+    alert(request);
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'register?usern=' + usern + '&userp=' + userp + '&name=' + name);
+    xhr.open('POST', url, true);
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
@@ -65,8 +83,8 @@ function registerPOST() {
         }
     };
     
-    xhr.setRequestHeader('ContentType','application/x-www-form-urlencoded');
-    xhr.send();
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
 }
 
 
