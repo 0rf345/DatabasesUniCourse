@@ -118,7 +118,6 @@ function registerPOST() {
     
     var request = JSON.stringify(object);
     var url = "register";
-    alert(request);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
@@ -157,7 +156,6 @@ function deleteMePOST() {
     
     var request = JSON.stringify(object);
     var url = "register";
-    alert(request);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
@@ -180,7 +178,6 @@ function goodClientsPOST() {
 
     var request = JSON.stringify(object);
     var url = "goodStanding";
-    alert(request);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
