@@ -173,11 +173,43 @@ function deleteMePOST() {
     xhr.send(request);
 }
 
+/**
+ * Should show clients that are in good sanding towards CCC
+ * @returns {undefined}
+ */
 function goodClientsPOST() {
     var object = new Object();
 
     var request = JSON.stringify(object);
     var url = "goodStanding";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                // parse JSON response from back-end
+                $("body").html("");
+            }else{
+                $("body").html("ERROR");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+/**
+ * Should show clients that are in good sanding towards CCC
+ * Sorted list of them
+ * @returns {undefined}
+ */
+function badClientsPOST() {
+    var object = new Object();
+
+    var request = JSON.stringify(object);
+    var url = "badStanding";
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
