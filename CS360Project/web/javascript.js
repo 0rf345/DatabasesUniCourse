@@ -40,13 +40,13 @@ function registerPOST() {
     var userp = sha1($("#userp").val());
     var client= $('input[name="accountType"]:checked').val();
     
-    var name  = $("#clientName").val();
+    var first = $("#first").val();
+    var last  = $("#last").val();
     var object = new Object();
     
     // Company Specific
     var firsts = {};
     var lasts = {}; 
-    var comp = "";
     if (client === 'company') {
         var num = $("#howMany").val();
         object.num = num;
@@ -60,9 +60,15 @@ function registerPOST() {
             arr[i] = obj;
         }
         object.employees = arr;
+        object.name = $("#name").val();
+    }else{
+        // Client is either individual or merchant
+        object.first = first;
+        object.last  = last;
     }
     
-    object.name = name;
+    object.first = first;
+    object.last  = last;
     object.usern = usern;
     object.userp = userp;
     object.client= client;
