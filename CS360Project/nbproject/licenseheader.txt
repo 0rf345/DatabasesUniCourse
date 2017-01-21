@@ -1,0 +1,11 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Project for UoC's CS360 Class
+${licensePrefix}Authors:
+${licensePrefix}Constantine Kalivas <csd3203@csd.uoc.gr>
+${licensePrefix}Orpheus Kalipolitis <csd3285@csd.uoc.gr>
+${licensePrefix}Olympia Ksanthaki <xanthaki@csd.uoc.gr>
+<#if licenseLast??>
+${licenseLast}
+</#if>
