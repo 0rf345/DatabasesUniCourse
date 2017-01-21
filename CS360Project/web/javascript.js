@@ -7,8 +7,15 @@
 function loginPOST() {
     var usern = $("#usern").val();
     var userp = sha1($("#userp").val());
+    
+    var object = new Object();
+    object.usern = usern;
+    object.userp = userp;
+    
+    var request = JSON.stringify(object);
+    
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'login?usern=' + usern + '&userp=' + userp);
+    xhr.open('POST', 'login?'+request);
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
@@ -22,7 +29,7 @@ function loginPOST() {
         }
     };
     
-    xhr.setRequestHeader('ContentType','application/x-www-form-urlencoded');
+    xhr.setRequestHeader('ContentType','application/json');
     xhr.send();
 }
 
