@@ -73,7 +73,7 @@ function registerPOST() {
         }
         var num = $("#howMany").val();
         object.num = num;
-        var arr = {};
+        object.employees = [];
         for(var i = 0; i < num; i++) {
             if(document.getElementById("first"+i).checkValidity() === false) {
                 alert("Please input first name for empoyee #" +(i+1));
@@ -88,9 +88,8 @@ function registerPOST() {
             var obj = new Object();
             obj.first = firsts[i];
             obj.last = lasts[i];
-            arr[i] = obj;
+            object.employees.push(obj);
         }
-        object.employees = arr;
         if(document.getElementById("name").checkValidity() === false) {
                 alert("Please input name for your company");
                 return;
@@ -135,7 +134,11 @@ function registerPOST() {
     xhr.send(request);
 }
 
+// Redirections
 
+function buyPage() {
+    window.location.href = "buySome.html";
+}
 
 function registerPage() {
     window.location.href = "register.html";
@@ -144,6 +147,29 @@ function registerPage() {
 
 function loginPage() {
     window.location.href = "index.html";
+}
+
+function logout() {
+    var object = new Object();
+    object.action= "logout";
+    
+    var request = JSON.stringify(object);
+    var url = "logout";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                loginPage();
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
 }
 
 /**
@@ -163,6 +189,88 @@ function deleteMePOST() {
             // Everything OK
             if(xhr.responseText === "OK") {
                 $("body").html("SUCCESS deletion of account");
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function payDebtPagePOST() {
+    var object = new Object();
+    object.action= "howMuchDoIOwe";
+    
+    var request = JSON.stringify(object);
+    var url = "debtquestion";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                window.location.href = "payStuff.html";
+                //add amount in debt right now 
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function payPOST() {
+    var object = new Object();
+    if(document.getElementById("payAmount").checkValidity() === false) {
+        alert("Please pay at least 1€");
+        return;
+    }
+    
+    object.amount = $("#payAmount").val();
+    
+    var request = JSON.stringify(object);
+    var url = "debtpay";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                $("#grabMe").html("Thanks for giving us your money.");
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function returnPagePOST() {
+    transactionsPOST();
+    // populate with transactions, check which one to return and send
+    // new POST request for return
+}
+
+function transactionsPOST() {
+    var object = new Object();
+    object.action= "transactions";
+    
+    var request = JSON.stringify(object);
+    var url = "transactions";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                $("#grabMe").html("");
+                // populate with transactions
             }else{
                 $("body").html("You owe us money");
             }

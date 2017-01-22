@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Project for UoC's CS360 Class
+Authors:
+Constantine Kalivas <csd3203@csd.uoc.gr>
+Orpheus Kalipolitis <csd3285@csd.uoc.gr>
+Olympia Ksanthaki <xanthaki@csd.uoc.gr>
+-->
+<html>
+    <head>
+        <title>CS360 Project of team: Power Puff Girls</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="sha1.js"></script>
+        <script type="text/javascript" src="javascript.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />        
+    </head>
+    
+    <body>
+        
+        <div name="login-form" class="login-form" >
+	
+		<div class="header">
+		<h1>Welcome to the CCC</h1>
+                    <span>Your money is our business.</span><p>
+                    <span>Please choose how much of your debt you want to pay.</span>
+		</div>
+	
+		<div id="grabMe" class="content">
+                    <p><label>Amount to pay </label><input type="number" id="payAmount" min="1" value="0" required /></p>
+                    <p><button class="button3" onclick="payPOST()">Pay Now</button></p>
+                </div>
+
+		<div class="footer">
+                    <button class="button" onclick="logOut()">LogOut</button>
+		</div>
+	
+	</div>
+        
+    </body>
+</html>
