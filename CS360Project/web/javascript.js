@@ -135,7 +135,11 @@ function registerPOST() {
     xhr.send(request);
 }
 
+// Redirections
 
+function buyPage() {
+    window.location.href = "buySome.html";
+}
 
 function registerPage() {
     window.location.href = "register.html";
@@ -219,9 +223,31 @@ function payDebtPagePOST() {
     xhr.send(request);
 }
 
-function buyPage() {
-    window.location.href = "buySome.html";
+function returnPagePOST() {
+    var object = new Object();
+    object.action= "transactions";
+    
+    var request = JSON.stringify(object);
+    var url = "transactions";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                $("#grabMe").html("");
+                // populate with transactions, check which one to return and send
+                // new POST request for return
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
 }
+
 
 // CCC specific functions
 
