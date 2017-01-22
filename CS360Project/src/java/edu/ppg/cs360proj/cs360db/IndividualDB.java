@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -183,7 +182,7 @@ public class IndividualDB {
 			Statement stmt = con.createStatement();
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("select * from individual")
+			insQuery.append("select * from individual, company, merchant")
 					.append(" where ")
 					.append(" usern = ").append("'").append(clientUName).append("'")
 					.append(";");
@@ -223,7 +222,7 @@ public class IndividualDB {
 			Connection con = DBCommon.getConnection();
 			Statement stmt = con.createStatement();
 
-			stmt.execute(tableQuery);
+			stmt.executeUpdate(tableQuery);
 
 			stmt.close();
 			con.close();
