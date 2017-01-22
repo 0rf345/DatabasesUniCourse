@@ -224,6 +224,12 @@ function payDebtPagePOST() {
 }
 
 function returnPagePOST() {
+    transactionsPOST();
+    // populate with transactions, check which one to return and send
+    // new POST request for return
+}
+
+function transactionsPOST() {
     var object = new Object();
     object.action= "transactions";
     
@@ -236,8 +242,7 @@ function returnPagePOST() {
             // Everything OK
             if(xhr.responseText === "OK") {
                 $("#grabMe").html("");
-                // populate with transactions, check which one to return and send
-                // new POST request for return
+                // populate with transactions
             }else{
                 $("body").html("You owe us money");
             }
@@ -247,7 +252,6 @@ function returnPagePOST() {
     xhr.setRequestHeader('ContentType','application/json');
     xhr.send(request);
 }
-
 
 // CCC specific functions
 
