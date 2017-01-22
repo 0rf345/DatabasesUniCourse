@@ -38,6 +38,7 @@ create table company_employee
 		foreign key (company_accid)
 			references company(accid)
 			on update cascade
+			on delete cascade
 ) engine = InnoDB;
 
 -- Merchant Table
