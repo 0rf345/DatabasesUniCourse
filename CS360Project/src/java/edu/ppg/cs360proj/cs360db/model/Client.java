@@ -84,10 +84,10 @@ public class Client implements Serializable {
 		this.availableCredit = 0;
 	}
 
-	public Client(String clientName, String clientPass, String accountNo, String expDate, Integer creditLimit, Integer currentDebt, Integer availableCredit) {
+	public Client(String clientName, String clientPass, String accountID, String expDate, Integer creditLimit, Integer currentDebt, Integer availableCredit) {
 		this.clientUName = clientName;
 		this.clientPass = clientPass;
-		this.accountID = accountNo;
+		this.accountID = accountID;
 		this.expDate = expDate;
 		this.creditLimit = creditLimit;
 		this.currentDebt = currentDebt;
