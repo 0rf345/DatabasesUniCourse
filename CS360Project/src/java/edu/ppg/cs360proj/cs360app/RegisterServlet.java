@@ -24,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import edu.ppg.cs360proj.cs360db.DBCommon;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -140,8 +141,10 @@ public class RegisterServlet extends HttpServlet {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.YEAR, 3); // to get previous year add -1
 		Date expDate = cal.getTime();
-		DateFormat dateFrmt = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFrmt = new SimpleDateFormat("YYYY-MM-DD");
 		String strExpDate = dateFrmt.format(expDate);
+		
+		DBCommon.validateDB();
 		
 		if(rr.getUserk().equals("individual")) {
 			Individual indiv = new Individual();
