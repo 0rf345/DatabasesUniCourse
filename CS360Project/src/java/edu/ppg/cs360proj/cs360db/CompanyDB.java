@@ -148,7 +148,9 @@ public class CompanyDB extends ClientDB {
 					.append(";");
 			stmt.execute(insQuery.toString());
 			res = stmt.getResultSet();
-			cmp.setAccountID(res.getString("id"));
+			if(res.next() == true) {
+				cmp.setAccountID(res.getString("id"));
+			}
 			
 			for(Employee emp : cmp.getEmployees()){
 				insQuery.setLength(0);
