@@ -40,14 +40,6 @@ public class Company extends Client {
 		this.employees = new ArrayList<>();
 	}
 
-	public Company(String companyName, ArrayList<Employee> employees,
-			String clientName, String clientPass, String accountID, String expDate,
-			Integer creditLimit, Integer currentDebt, Integer availableCredit) {
-		super(clientName, clientPass, accountID, expDate, creditLimit, currentDebt, availableCredit);
-		this.companyName = companyName;
-		this.employees = employees;
-	}
-
 	@Override
 	public String toString() {
 		return "Company{" + "companyName=" + companyName + ", employees=" + employees + '}';

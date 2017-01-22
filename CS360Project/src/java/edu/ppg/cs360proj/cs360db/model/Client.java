@@ -84,16 +84,6 @@ public class Client implements Serializable {
 		this.availableCredit = 0;
 	}
 
-	public Client(String clientName, String clientPass, String accountID, String expDate, Integer creditLimit, Integer currentDebt, Integer availableCredit) {
-		this.clientUName = clientName;
-		this.clientPass = clientPass;
-		this.accountID = accountID;
-		this.expDate = expDate;
-		this.creditLimit = creditLimit;
-		this.currentDebt = currentDebt;
-		this.availableCredit = availableCredit;
-	}
-
 	@Override
 	public String toString() {
 		return "Client{" + "clientName=" + clientUName + ", clientPass=" + clientPass + ", accountNo=" + accountID + ", expDate=" + expDate + ", creditLimit=" + creditLimit + ", currentDebt=" + currentDebt + ", availableCredit=" + availableCredit + '}';

@@ -34,14 +34,6 @@ public class Individual extends Client {
 		this.lName = "";
 	}
 
-	public Individual(String fname, String lname, String clientName, String clientPass,
-			String accountID, String expDate, Integer creditLimit, Integer currentDebt,
-			Integer availableCredit) {
-		super(clientName, clientPass, accountID, expDate, creditLimit, currentDebt, availableCredit);
-		this.fName = fname;
-		this.lName = lname;
-	}
-
 	@Override
 	public String toString() {
 		return "Individual{" + "fName=" + fName + ", lName=" + lName + '}';
