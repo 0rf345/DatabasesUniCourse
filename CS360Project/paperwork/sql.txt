@@ -69,7 +69,7 @@ create table individual_transaction
 	trsctdate  date not null,
 	amount     decimal(15,2) not null default 0,
 	ischarge   boolean not null default false,
-	constraint `fk_indivtrs_iindiv_id`
+	constraint `fk_indivtrs_indiv_id`
 		foreign key (indiv_id) references individual (id)
 		on update cascade,
 	constraint `fk_indivtrs_merch_id`
