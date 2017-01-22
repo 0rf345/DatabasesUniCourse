@@ -219,6 +219,9 @@ function payDebtPagePOST() {
     xhr.send(request);
 }
 
+function buyPage() {
+    window.location.href = "buySome.html";
+}
 
 // CCC specific functions
 
