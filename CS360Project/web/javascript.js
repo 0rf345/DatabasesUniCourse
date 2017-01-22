@@ -123,9 +123,10 @@ function registerPOST() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
             if(xhr.responseText === "OK") {
-                $("body").html("SUCCESS registering new account");
+                $("#content").html("SUCCESS registering new account");
             }else{
-                $("body").html("Something went terribly wrong");
+                alert("Something went terribly wrong");
+                registerPage();
             }
         }
     };
