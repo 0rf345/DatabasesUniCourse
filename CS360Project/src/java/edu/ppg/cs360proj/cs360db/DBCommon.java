@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Constantine Kalivas
  */
 public class DBCommon {
-	private static final String URL = "jdbc:mysql://SERVER_URL_HERE";
+	private static final String URL = "jdbc:mysql://10.176.36.10";
 	private static final String DATABASE = "CS360DB";
 	private static final int PORT = 3306;
 	private static final String UNAME = "CS360_CCC";
