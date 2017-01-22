@@ -12,6 +12,8 @@ create table individual
 	lname        varchar(64) not null
 ) engine = InnoDB;
 
+alter table individual auto_increment = 100000;
+
 -- Company Table
 create table company
 (
@@ -25,13 +27,19 @@ create table company
 	companyname  varchar(64) not null
 ) engine = InnoDB;
 
+alter table company auto_increment = 200000;
+
 -- Company Employee Table
 create table company_employee
 (
 	id          int(8) not null auto_increment primary key,
 	company_id  int(6) not null,
 	fname       varchar(64) not null,
-	lname       varchar(64) not null
+	lname       varchar(64) not null,
+	constraint `fk_cmpemp_company_id`
+		foreign key (company_id) references company (id)
+		on update cascade
+		on delete cascade
 ) engine = InnoDB;
 
 -- Merchant Table
@@ -50,6 +58,7 @@ create table merchant
 	profit       decimal(15,2) not null
 ) engine = InnoDB;
 
+alter table merchant auto_increment = 300000;
 
 -- Individual Transaction Table
 create table individual_transaction
@@ -59,9 +68,16 @@ create table individual_transaction
 	merch_id   int(6),
 	trsctdate  date not null,
 	amount     decimal(15,2) not null default 0,
-	ischarge   boolean not null default false
+	ischarge   boolean not null default false,
+	constraint `fk_indivtrs_iindiv_id`
+		foreign key (indiv_id) references individual (id)
+		on update cascade,
+	constraint `fk_indivtrs_merch_id`
+		foreign key (merch_id) references merchant (id)
+		on update cascade
 ) engine = InnoDB;
 
+alter table individual_transaction auto_increment = 10000000;
 
 -- Company Transaction Table
 create table company_transaction
@@ -71,35 +87,16 @@ create table company_transaction
 	merch_id    int(6),
 	trsctdate   date not null,
 	amount      decimal(15,2) not null default 0,
-	ischarge    boolean not null default false
+	ischarge    boolean not null default false,
+	constraint `fk_cmptrs_company_id`
+		foreign key (company_id) references company (id)
+		on update cascade,
+	constraint `fk_cmptrs_merch_id`
+		foreign key (merch_id) references merchant (id)
+		on update cascade
+
 ) engine = InnoDB;
 
-
-alter table individual auto_increment = 100000;
-alter table company auto_increment = 200000;
-alter table merchant auto_increment = 300000;
-alter table individual_transaction auto_increment = 10000000;
 alter table company_transaction auto_increment = 20000000;
-
-alter table company_employee
-	add constraint `fk_cmpemp_company_id` foreign key (company_id) references company (id)
-		on update cascade
-		on delete cascade;
-
-alter table individual_transaction
-	add constraint `fk_indivtrs_iindiv_id` foreign key (indiv_id) references individual (id)
-		on update cascade;
-
-alter table individual_transaction
-	add constraint `fk_indivtrs_merch_id` foreign key (merch_id) references merchant (id)
-		on update cascade;
-
-alter table company_transaction
-	add constraint `fk_cmptrs_company_id` foreign key (company_id) references company (id)
-		on update cascade;
-
-alter table company_transaction
-	add constraint `fk_cmptrs_merch_id` foreign key (merch_id) references merchant (id)
-		on update cascade;
 
 -- vim: set ft=sql:
