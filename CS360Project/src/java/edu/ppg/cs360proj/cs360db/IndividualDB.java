@@ -114,7 +114,7 @@ public class IndividualDB extends ClientDB {
 					.append("'").append(indiv.getlName()).append("'")
 					.append(");");
 			stmt.executeUpdate(insQuery.toString());
-			System.out.println("#DB: The member was successfully deleted from the database.");
+			System.out.println("#DB: The member was successfully added to the database.");
 
 			stmt.close();
 			con.close();
