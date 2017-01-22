@@ -146,6 +146,29 @@ function loginPage() {
     window.location.href = "index.html";
 }
 
+function logout() {
+    var object = new Object();
+    object.action= "logout";
+    
+    var request = JSON.stringify(object);
+    var url = "logout";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                loginPage();
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
 /**
  * Delete active user IF no debt
  * @returns {undefined}
