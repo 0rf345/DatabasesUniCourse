@@ -38,7 +38,7 @@ public class DBCommon {
 
 			res = dbmd.getTables(null, null, "individual", null);
 			if(!res.next()) {
-				IndividualDB.genTables();
+				IndividualDB.genTable();
 			}
 
 			res = dbmd.getTables(null, null, "company", null);
@@ -48,7 +48,7 @@ public class DBCommon {
 
 			res = dbmd.getTables(null, null, "merchant", null);
 			if(!res.next()) {
-				MerchantDB.genTables();
+				MerchantDB.genTable();
 			}
 
 			// TODO: Add clauses for "TransactionDB"

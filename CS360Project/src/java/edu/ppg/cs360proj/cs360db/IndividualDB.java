@@ -174,12 +174,11 @@ public class IndividualDB extends ClientDB {
 		}
 	}
 	
-	public static void genTables() throws SQLException {
+	public static void genTable() throws SQLException {
 		String tableQuery =
 			"create table individual\n" +
 			"(\n" +
 			"	id           int(6) not null auto_increment primary key,\n" +
-			"	accid        varchar(9) as '00-'+right('000000'+cast(id as varchar(6)), 6) persistent,\n" +
 			"	usern        varchar(32) not null,\n" +
 			"	userp        varchar(64) not null,\n" +
 			"	expdate      date,\n" +
@@ -194,7 +193,8 @@ public class IndividualDB extends ClientDB {
 		Statement stmt = con.createStatement();
 
 		stmt.executeUpdate(tableQuery);
-
+		stmt.executeUpdate("alter table individual auto_increment = 100000;");
+		
 		stmt.close();
 		con.close();
 	}

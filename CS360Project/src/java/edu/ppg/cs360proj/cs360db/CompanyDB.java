@@ -224,7 +224,6 @@ public class CompanyDB extends ClientDB {
 			"create table company\n" +
 			"(\n" +
 			"	id           int(6) not null auto_increment primary key,\n" +
-			"	accid        varchar(9) as '01-'+right('000000'+cast(id as varchar(6)), 6) persistent,\n" +
 			"	usern        varchar(32) not null,\n" +
 			"	userp        varchar(64) not null,\n" +
 			"	expdate      date,\n" +
@@ -236,20 +235,22 @@ public class CompanyDB extends ClientDB {
 		
 		String companyEmployeeTableQuery =
 			"create table company_employee\n" +
-			"	id     int(3) not null auto_increment primary key,\n" +
-			"	empid  varchar(9) as company_accid+'-'+right('000'+cast(id as varchar(3)), 3) persistent,\n" +
-			"	fname  varchar(64) not null,\n" +
-			"	lname  varchar(64) not null,\n" +
-			"	constraint `fk_company_accid`\n" +
-			"		foreign key (company_accid)\n" +
-			"			references company(accid)\n" +
-			"			on update cascade\n" +
+			"(\n" +
+			"	id          int(8) not null auto_increment primary key,\n" +
+			"	company_id  int(6) not null,\n" +
+			"	fname       varchar(64) not null,\n" +
+			"	lname       varchar(64) not null,\n" +
+			"	constraint `fk_cmpemp_company_id`\n" +
+			"		foreign key (company_id) references company (id)\n" +
+			"		on update cascade\n" +
+			"		on delete cascade\n" +
 			") engine = InnoDB;";
 				
 		Connection con = DBCommon.getConnection();
 		Statement stmt = con.createStatement();
 
 		stmt.executeUpdate(companyTableQuery);
+		stmt.executeUpdate("alter table company auto_increment = 200000;");
 		stmt.executeUpdate(companyEmployeeTableQuery);
 
 		stmt.close();

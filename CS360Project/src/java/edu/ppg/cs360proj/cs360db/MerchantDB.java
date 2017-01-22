@@ -186,12 +186,11 @@ public class MerchantDB extends ClientDB {
 		}
 	}
 	
-	public static void genTables() throws SQLException {
+	public static void genTable() throws SQLException {
 		String tableQuery =
 			"create table merchant\n" +
 			"(\n" +
 			"	id           int(6) not null auto_increment primary key,\n" +
-			"	accid        varchar(9) as '02-'+right('000000'+cast(id as varchar(6)), 6) presistent,\n" +
 			"	usern        varchar(32) not null,\n" +
 			"	userp        varchar(64) not null,\n" +
 			"	expdate      date,\n" +
@@ -208,6 +207,7 @@ public class MerchantDB extends ClientDB {
 		Statement stmt = con.createStatement();
 
 		stmt.executeUpdate(tableQuery);
+		stmt.executeUpdate("alter table merchant auto_increment = 300000;");
 
 		stmt.close();
 		con.close();
