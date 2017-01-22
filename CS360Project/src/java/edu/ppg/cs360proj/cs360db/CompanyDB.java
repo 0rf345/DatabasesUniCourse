@@ -12,8 +12,6 @@ import edu.ppg.cs360proj.cs360db.model.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -151,16 +149,14 @@ public class CompanyDB extends ClientDB {
 			res = stmt.getResultSet();
 			cmp.setAccountID(res.getString("accid"));
 			
-			Iterator it = cmp.getEmployees().entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String,Employee> pair = (Map.Entry) it.next();
+			for(Employee emp : cmp.getEmployees()){
 				insQuery.setLength(0);
 				insQuery.append("insert into company_employee")
 						.append(" ( company_accid, fname, lname ) ")
 						.append(" VALUES (")
 						.append("'").append(cmp.getAccountID()).append("'")
-						.append("'").append(pair.getValue().getfName()).append("'")
-						.append("'").append(pair.getValue().getlName()).append("'")
+						.append("'").append(emp.getfName()).append("'")
+						.append("'").append(emp.getlName()).append("'")
 						.append(");");
 				stmt.execute(insQuery.toString());
 			}
