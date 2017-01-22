@@ -52,7 +52,7 @@ create table merchant
 	availcredit  decimal(15,2) not null default 0,
 	fname        varchar(64) not null,
 	lname        varchar(64) not null,
-	commission   decimal(5,2) not null default 5.00;
+	commission   decimal(5,2) not null default 5.00,
 	profit       decimal(15,2) not null
 ) engine = InnoDB;
 
