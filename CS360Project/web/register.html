@@ -26,8 +26,11 @@ and open the template in the editor.
 		</div>
 	
 		<div class="content">
-		<input id="usern" type="text" class="input" placeholder="Username" required/>
-                <input id="userp" type="password" class="input" placeholder="Password" required />
+		<input id="usern" type="text" class="input" placeholder="Username" required 
+                       pattern='.{8,}' required title='8 or more latin characters' />
+                <input id="userp" type="password" class="input" placeholder="Password" required 
+                       pattern='(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?\x26])[A-Za-z\d$@$!%*#?\x26]{6,10}$' 
+                       title="6-10 characters, must contain 1 latin character, a number and a special symbol"/>
                 <input id="first" type="text" class="input" placeholder="First name" required />
                 <input id="last" type="text" class="input" placeholder="Last name" required />
                 <input id="name" type="text" class="input" placeholder="Name of company" required hidden />
@@ -77,7 +80,7 @@ and open the template in the editor.
 
 		<div class="footer">
                     <button class="button" onclick="loginPage()">Login Page</button>
-                    <button class="button" onclick="registerPOST()">Register</button>
+                    <button class="button" type="submit" onclick="registerPOST()">Register</button>
 		</div>
 	
 	</div>

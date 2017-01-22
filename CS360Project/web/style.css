@@ -264,3 +264,7 @@ FOOTER
     border-radius: 5px;
     cursor: pointer;	
 }
+
+input:invalid {
+    border: 2px solid red!important;
+}
