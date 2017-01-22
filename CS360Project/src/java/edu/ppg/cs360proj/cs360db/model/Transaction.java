@@ -11,8 +11,8 @@ import java.io.Serializable;
 
 public class Transaction implements Serializable {
 	private String trsctID;
-	private String clientAccNo;
-	private String merchantAccNo;
+	private String clientAccID;
+	private String merchantAccID;
 	private String trsctDate;
 	private int amount;
 	private boolean isCharge;
@@ -21,12 +21,12 @@ public class Transaction implements Serializable {
 		return trsctID;
 	}
 
-	public String getClientAccNo() {
-		return clientAccNo;
+	public String getClientAccID() {
+		return clientAccID;
 	}
 
-	public String getMerchantAccNo() {
-		return merchantAccNo;
+	public String getMerchantAccID() {
+		return merchantAccID;
 	}
 
 	public String getTrsctDate() {
@@ -45,12 +45,12 @@ public class Transaction implements Serializable {
 		this.trsctID = trsctID;
 	}
 
-	public void setClientAccNo(String clientAccNo) {
-		this.clientAccNo = clientAccNo;
+	public void setClientAccID(String clientAccID) {
+		this.clientAccID = clientAccID;
 	}
 
-	public void setMerchantAccNo(String merchantAccNo) {
-		this.merchantAccNo = merchantAccNo;
+	public void setMerchantAccID(String merchantAccID) {
+		this.merchantAccID = merchantAccID;
 	}
 
 	public void setTrsctDate(String trsctDate) {
@@ -67,18 +67,18 @@ public class Transaction implements Serializable {
 
 	public Transaction() {
 		this.trsctID = "";
-		this.clientAccNo = "";
-		this.merchantAccNo = "";
+		this.clientAccID = "";
+		this.merchantAccID = "";
 		this.trsctDate = "";
 		this.amount = 0;
 		this.isCharge = false;
 	}
 
-	public Transaction(String trsctID, String clientAccNo, String merchantAccNo,
+	public Transaction(String trsctID, String clientAccID, String merchantAccID,
 			String trsctDate, int amount, boolean isCharge) {
 		this.trsctID = trsctID;
-		this.clientAccNo = clientAccNo;
-		this.merchantAccNo = merchantAccNo;
+		this.clientAccID = clientAccID;
+		this.merchantAccID = merchantAccID;
 		this.trsctDate = trsctDate;
 		this.amount = amount;
 		this.isCharge = isCharge;
@@ -86,6 +86,6 @@ public class Transaction implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Transaction{" + "trsctID=" + trsctID + ", clientAccNo=" + clientAccNo + ", merchantAccNo=" + merchantAccNo + ", trsctDate=" + trsctDate + ", amount=" + amount + ", isCharge=" + isCharge + '}';
-	}
+		return "Transaction{" + "trsctID=" + trsctID + ", clientAccID=" + clientAccID + ", merchantAccID=" + merchantAccID + ", trsctDate=" + trsctDate + ", amount=" + amount + ", isCharge=" + isCharge + '}';
+	}	
 }

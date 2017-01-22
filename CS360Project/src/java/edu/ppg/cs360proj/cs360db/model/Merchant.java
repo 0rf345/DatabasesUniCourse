@@ -34,8 +34,8 @@ public class Merchant extends Individual {
 		this.profit = 0;
 	}
 
-	public Merchant(Integer commission, Integer profit, String fname, String lname, String clientName, String clientPass, String accountNo, String expDate, Integer creditLimit, Integer currentDebt, Integer availableCredit) {
-		super(fname, lname, clientName, clientPass, accountNo, expDate, creditLimit, currentDebt, availableCredit);
+	public Merchant(Integer commission, Integer profit, String fname, String lname, String clientName, String clientPass, String accountID, String expDate, Integer creditLimit, Integer currentDebt, Integer availableCredit) {
+		super(fname, lname, clientName, clientPass, accountID, expDate, creditLimit, currentDebt, availableCredit);
 		this.commission = commission;
 		this.profit = profit;
 	}
