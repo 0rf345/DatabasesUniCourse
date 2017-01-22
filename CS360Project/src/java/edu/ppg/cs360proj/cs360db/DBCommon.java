@@ -21,10 +21,16 @@ public class DBCommon {
 	private static final int PORT = 3306;
 	private static final String UNAME = "CS360_CCC";
 	private static final String PASSWD = "CS360_CCC";
-
-	public static Connection getConnection() throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection(URL + ":" + PORT + "/" + DATABASE
-			+ "?zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", UNAME, PASSWD);
-    }
+	
+	public static Connection getConnection() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			return DriverManager.getConnection(URL + ":" + PORT + "/" + DATABASE
+				+ "?zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", UNAME, PASSWD);
+		} catch(SQLException | ClassNotFoundException ex) {
+			// Log exception
+			Logger.getLogger(DBCommon.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
+		}
+	}
 }
