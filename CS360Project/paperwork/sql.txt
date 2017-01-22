@@ -25,14 +25,25 @@ create table company
 	currdebt     decimal(15,2) not null default 0,
 	availcredit  decimal(15,2) not null default 0,
 	companyname  varchar(64) not null
-	--TODO: Add employees
+) engine = InnoDB;
+
+-- Company Employee Table
+create table company_employee
+	id     int(3) not null auto_increment primary key,
+	empid  varchar(9) as company_accid+'-'+right('000'+cast(id as varchar(3)), 3) persistent,
+	fname  varchar(64) not null,
+	lname  varchar(64) not null,
+	constraint `fk_company_accid`
+		foreign key (company_accid)
+			references company(accid)
+			on update cascade
 ) engine = InnoDB;
 
 -- Merchant Table
 create table merchant
 (
 	id           int(6) not null auto_increment primary key,
-	accid        as '02-'+right('000000'+cast(id as varchar(6)), 6) presistent,
+	accid        varchar(9) as '02-'+right('000000'+cast(id as varchar(6)), 6) presistent,
 	usern        varchar(32) not null,
 	userp        varchar(64) not null,
 	expdate      date,
@@ -49,28 +60,36 @@ create table merchant
 create table individual_transaction
 (
 	id         int(8) not null auto_increment primary key,
-	trsctid    as '00-'+right('00000000'+cast(id as varchar(8)), 8) persistent,
+	trsctid    varchar(11) as '00-'+right('00000000'+cast(id as varchar(8)), 8) persistent,
 	trsctdate  date not null,
 	amount     decimal(15,2) not null default 0,
 	ischarge   boolean not null default false
 	constraint `fk_indiv_accid`
-		foreign key (indiv_accid) references individual(accid)
+		foreign key (indiv_accid)
+			references individual(accid)
+			on update cascade
 	constraint `fk_merch_accid`
-		foreign key (merch_accid) references merchant(accid)
+		foreign key (merch_accid)
+			references merchant(accid)
+			on update cascade
 ) engine = InnoDB;
 
 -- Company Transaction Table
 create table company_transaction
 (
 	id         int(8) not null auto_increment primary key,
-	trsctid    as '01-'+right('00000000'+cast(id as varchar(8)), 8) persistent,
+	trsctid    varchar(11) as '01-'+right('00000000'+cast(id as varchar(8)), 8) persistent,
 	trsctdate  date not null,
 	amount     decimal(15,2) not null default 0,
 	ischarge   boolean not null default false
 	constraint `fk_company_accid`
-		foreign key (company_accid) references company(accid)
+		foreign key (company_accid)
+			references company(accid)
+			on update cascade
 	constraint `fk_merch_accid`
-		foreign key (merch_accid) references merchant(accid)
+		foreign key (merch_accid)
+			references merchant(accid)
+			on update cascade
 ) engine = InnoDB;
 
 -- vim: set ft=sql:
