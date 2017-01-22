@@ -120,6 +120,7 @@ public class MerchantDB extends ClientDB {
 					.append("'").append(merch.getAvailableCredit()).append("',")
 					.append("'").append(merch.getfName()).append("',")
 					.append("'").append(merch.getlName()).append("',")
+					.append("'").append(merch.getCommission()).append("',")
 					.append("'").append(merch.getProfit()).append("',")
 					.append("'").append(merch.getClientUName()).append("'")
 					.append(");");
