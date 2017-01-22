@@ -36,7 +36,7 @@ public class CompanyDB extends ClientDB {
 			ResultSet res = stmt.getResultSet();
 			while(res.next() == true) {
 				Company cmp = new Company();
-				cmp.setAccountID(res.getString("accid"));
+				cmp.setAccountID(res.getString("id"));
 				cmp.setClientUName(res.getString("usern"));
 				cmp.setClientPass(res.getString("userp"));
 				cmp.setExpDate(res.getString("expdate"));
@@ -48,7 +48,7 @@ public class CompanyDB extends ClientDB {
 				insQuery.setLength(0);
 				insQuery.append("select * from company_employee")
 						.append(" where ")
-						.append(" company_accid = '").append(cmp.getAccountID()).append("'");
+						.append(" company_id = '").append(cmp.getAccountID()).append("'");
 				res = stmt.getResultSet();
 				while(res.next() == true) {
 					Employee emp = new Employee();
@@ -87,7 +87,7 @@ public class CompanyDB extends ClientDB {
 
 			ResultSet res = stmt.getResultSet();
 			if (res.next() == true) {
-				cmp.setAccountID(res.getString("accid"));
+				cmp.setAccountID(res.getString("id"));
 				cmp.setClientUName(res.getString("usern"));
 				cmp.setClientPass(res.getString("userp"));
 				cmp.setExpDate(res.getString("expdate"));
@@ -99,7 +99,7 @@ public class CompanyDB extends ClientDB {
 				insQuery.setLength(0);
 				insQuery.append("select * from company_employee")
 						.append(" where ")
-						.append(" company_accid = '").append(cmp.getAccountID()).append("'");
+						.append(" company_id = '").append(cmp.getAccountID()).append("'");
 				res = stmt.getResultSet();
 				while(res.next() == true) {
 					Employee emp = new Employee();
@@ -127,35 +127,36 @@ public class CompanyDB extends ClientDB {
 			ResultSet res;
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("insert into company")
+			insQuery.append("insert into company ")
 					.append(" ( usern, userp, expdate, creditlmt, currdebt, availcredit, companyname ) ")
 					.append(" VALUES (")
-					.append("'").append(cmp.getClientUName()).append("'")
-					.append("'").append(cmp.getClientPass()).append("'")
-					.append("'").append(cmp.getExpDate()).append("'")
-					.append("'").append(cmp.getCreditLimit()).append("'")
-					.append("'").append(cmp.getCurrentDebt()).append("'")
-					.append("'").append(cmp.getAvailableCredit()).append("'")
+					.append("'").append(cmp.getClientUName()).append("',")
+					.append("'").append(cmp.getClientPass()).append("',")
+					.append("'").append(cmp.getExpDate()).append("',")
+					.append("'").append(cmp.getCreditLimit()).append("',")
+					.append("'").append(cmp.getCurrentDebt()).append("',")
+					.append("'").append(cmp.getAvailableCredit()).append("',")
 					.append("'").append(cmp.getCompanyName()).append("'")
 					.append(");");
+			Logger.getLogger(CompanyDB.class.getName()).log(Level.SEVERE, insQuery.toString());
 			stmt.executeUpdate(insQuery.toString());
 
 			insQuery.setLength(0);
-			insQuery.append("select accid from Company ")
+			insQuery.append("select id from company ")
 					.append(" where ")
 					.append(" usern = ").append("'").append(cmp.getClientUName()).append("'")
 					.append(";");
 			stmt.execute(insQuery.toString());
 			res = stmt.getResultSet();
-			cmp.setAccountID(res.getString("accid"));
+			cmp.setAccountID(res.getString("id"));
 			
 			for(Employee emp : cmp.getEmployees()){
 				insQuery.setLength(0);
 				insQuery.append("insert into company_employee")
-						.append(" ( company_accid, fname, lname ) ")
+						.append(" ( company_id, fname, lname ) ")
 						.append(" VALUES (")
-						.append("'").append(cmp.getAccountID()).append("'")
-						.append("'").append(emp.getfName()).append("'")
+						.append("'").append(cmp.getAccountID()).append("',")
+						.append("'").append(emp.getfName()).append("',")
 						.append("'").append(emp.getlName()).append("'")
 						.append(");");
 				stmt.execute(insQuery.toString());
@@ -178,12 +179,12 @@ public class CompanyDB extends ClientDB {
 			StringBuilder insQuery = new StringBuilder();
 			insQuery.append("update company")
 					.append(" set ")
-					.append(" userp = ").append("'").append(cmp.getClientPass()).append("'")
-					.append(" expdate = ").append("'").append(cmp.getExpDate()).append("'")
-					.append(" creditlmt = ").append("'").append(cmp.getCreditLimit()).append("'")
-					.append(" currdebt = ").append("'").append(cmp.getCurrentDebt()).append("'")
-					.append(" availcredit = ").append("'").append(cmp.getAvailableCredit()).append("'")
-					.append(" companyname = ").append("'").append(cmp.getCompanyName()).append("'")
+					.append(" userp = ").append("'").append(cmp.getClientPass()).append("',")
+					.append(" expdate = ").append("'").append(cmp.getExpDate()).append("',")
+					.append(" creditlmt = ").append("'").append(cmp.getCreditLimit()).append("',")
+					.append(" currdebt = ").append("'").append(cmp.getCurrentDebt()).append("',")
+					.append(" availcredit = ").append("'").append(cmp.getAvailableCredit()).append("',")
+					.append(" companyname = ").append("'").append(cmp.getCompanyName()).append("',")
 					.append(" where usern = ").append("'").append(cmp.getClientUName()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());

@@ -35,7 +35,7 @@ public class IndividualDB extends ClientDB {
 			ResultSet res = stmt.getResultSet();
 			while(res.next() == true) {
 				Individual indiv = new Individual();
-				indiv.setAccountID(res.getString("accid"));
+				indiv.setAccountID(res.getString("id"));
 				indiv.setClientUName(res.getString("usern"));
 				indiv.setClientPass(res.getString("userp"));
 				indiv.setExpDate(res.getString("expdate"));
@@ -74,7 +74,7 @@ public class IndividualDB extends ClientDB {
 
 			ResultSet res = stmt.getResultSet();
 			if (res.next() == true) {
-				indiv.setAccountID(res.getString("accid"));
+				indiv.setAccountID(res.getString("id"));
 				indiv.setClientUName(res.getString("usern"));
 				indiv.setClientPass(res.getString("userp"));
 				indiv.setExpDate(res.getString("expdate"));
@@ -104,13 +104,13 @@ public class IndividualDB extends ClientDB {
 			insQuery.append("insert into individual")
 					.append(" ( usern, userp, expdate, creditlmt, currdebt, availcredit, fname, lname ) ")
 					.append(" VALUES (")
-					.append("'").append(indiv.getClientUName()).append("'")
-					.append("'").append(indiv.getClientPass()).append("'")
-					.append("'").append(indiv.getExpDate()).append("'")
-					.append("'").append(indiv.getCreditLimit()).append("'")
-					.append("'").append(indiv.getCurrentDebt()).append("'")
-					.append("'").append(indiv.getAvailableCredit()).append("'")
-					.append("'").append(indiv.getfName()).append("'")
+					.append("'").append(indiv.getClientUName()).append("',")
+					.append("'").append(indiv.getClientPass()).append("',")
+					.append("'").append(indiv.getExpDate()).append("',")
+					.append("'").append(indiv.getCreditLimit()).append("',")
+					.append("'").append(indiv.getCurrentDebt()).append("',")
+					.append("'").append(indiv.getAvailableCredit()).append("',")
+					.append("'").append(indiv.getfName()).append("',")
 					.append("'").append(indiv.getlName()).append("'")
 					.append(");");
 			stmt.executeUpdate(insQuery.toString());
@@ -132,13 +132,13 @@ public class IndividualDB extends ClientDB {
 			StringBuilder insQuery = new StringBuilder();
 			insQuery.append("update individual")
 					.append(" set ")
-					.append(" userp = ").append("'").append(indiv.getClientPass()).append("'")
-					.append(" expdate = ").append("'").append(indiv.getExpDate()).append("'")
-					.append(" creditlmt = ").append("'").append(indiv.getCreditLimit()).append("'")
-					.append(" currdebt = ").append("'").append(indiv.getCurrentDebt()).append("'")
-					.append(" availcredit = ").append("'").append(indiv.getAvailableCredit()).append("'")
-					.append(" fname = ").append("'").append(indiv.getfName()).append("'")
-					.append(" lname = ").append("'").append(indiv.getlName()).append("'")
+					.append(" userp = ").append("'").append(indiv.getClientPass()).append("',")
+					.append(" expdate = ").append("'").append(indiv.getExpDate()).append("',")
+					.append(" creditlmt = ").append("'").append(indiv.getCreditLimit()).append("',")
+					.append(" currdebt = ").append("'").append(indiv.getCurrentDebt()).append("',")
+					.append(" availcredit = ").append("'").append(indiv.getAvailableCredit()).append("',")
+					.append(" fname = ").append("'").append(indiv.getfName()).append("',")
+					.append(" lname = ").append("'").append(indiv.getlName()).append("',")
 					.append(" where usern = ").append("'").append(indiv.getClientUName()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());
