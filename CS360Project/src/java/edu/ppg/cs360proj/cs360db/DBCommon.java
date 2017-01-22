@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Constantine Kalivas
  */
 public class DBCommon {
-	private static final String URL = "jdbc:mysql://SERVER_URL_HERE";
+	private static final String URL = "jdbc:mysql://10.176.36.10";
 	private static final String DATABASE = "CS360DB";
 	private static final int PORT = 3306;
 	private static final String UNAME = "CS360_CCC";
@@ -38,7 +38,7 @@ public class DBCommon {
 
 			res = dbmd.getTables(null, null, "individual", null);
 			if(!res.next()) {
-				IndividualDB.genTables();
+				IndividualDB.genTable();
 			}
 
 			res = dbmd.getTables(null, null, "company", null);
@@ -48,7 +48,7 @@ public class DBCommon {
 
 			res = dbmd.getTables(null, null, "merchant", null);
 			if(!res.next()) {
-				MerchantDB.genTables();
+				MerchantDB.genTable();
 			}
 
 			// TODO: Add clauses for "TransactionDB"

@@ -39,7 +39,7 @@ public class MerchantDB extends ClientDB {
 			ResultSet res = stmt.getResultSet();
 			while(res.next() == true) {
 				Merchant merch = new Merchant();
-				merch.setAccountID(res.getString("accid"));
+				merch.setAccountID(res.getString("id"));
 				merch.setClientUName(res.getString("usern"));
 				merch.setClientPass(res.getString("userp"));
 				merch.setExpDate(res.getString("expdate"));
@@ -80,7 +80,7 @@ public class MerchantDB extends ClientDB {
 
 			ResultSet res = stmt.getResultSet();
 			if (res.next() == true) {
-				merch.setAccountID(res.getString("accid"));
+				merch.setAccountID(res.getString("id"));
 				merch.setClientUName(res.getString("usern"));
 				merch.setClientPass(res.getString("userp"));
 				merch.setExpDate(res.getString("expdate"));
@@ -112,15 +112,16 @@ public class MerchantDB extends ClientDB {
 			insQuery.append("insert into merchant")
 					.append(" ( usern, userp, expdate, creditlmt, currdebt, availcredit, fname, lname, commission, profit ) ")
 					.append(" VALUES (")
-					.append("'").append(merch.getClientUName()).append("'")
-					.append("'").append(merch.getClientPass()).append("'")
-					.append("'").append(merch.getExpDate()).append("'")
-					.append("'").append(merch.getCreditLimit()).append("'")
-					.append("'").append(merch.getCurrentDebt()).append("'")
-					.append("'").append(merch.getAvailableCredit()).append("'")
-					.append("'").append(merch.getfName()).append("'")
-					.append("'").append(merch.getlName()).append("'")
-					.append("'").append(merch.getProfit()).append("'")
+					.append("'").append(merch.getClientUName()).append("',")
+					.append("'").append(merch.getClientPass()).append("',")
+					.append("'").append(merch.getExpDate()).append("',")
+					.append("'").append(merch.getCreditLimit()).append("',")
+					.append("'").append(merch.getCurrentDebt()).append("',")
+					.append("'").append(merch.getAvailableCredit()).append("',")
+					.append("'").append(merch.getfName()).append("',")
+					.append("'").append(merch.getlName()).append("',")
+					.append("'").append(merch.getCommission()).append("',")
+					.append("'").append(merch.getProfit()).append("',")
 					.append("'").append(merch.getClientUName()).append("'")
 					.append(");");
 			stmt.executeUpdate(insQuery.toString());
@@ -142,15 +143,15 @@ public class MerchantDB extends ClientDB {
 			StringBuilder insQuery = new StringBuilder();
 			insQuery.append("update merchant")
 					.append(" set ")
-					.append(" userp = ").append("'").append(merch.getClientPass()).append("'")
-					.append(" expdate = ").append("'").append(merch.getExpDate()).append("'")
-					.append(" creditlmt = ").append("'").append(merch.getCreditLimit()).append("'")
-					.append(" currdebt = ").append("'").append(merch.getCurrentDebt()).append("'")
-					.append(" availcredit = ").append("'").append(merch.getAvailableCredit()).append("'")
-					.append(" fname = ").append("'").append(merch.getfName()).append("'")
-					.append(" lname = ").append("'").append(merch.getlName()).append("'")
-					.append(" commission = ").append("'").append(merch.getCommission()).append("'")
-					.append(" profit = ").append("'").append(merch.getProfit()).append("'")
+					.append(" userp = ").append("'").append(merch.getClientPass()).append("',")
+					.append(" expdate = ").append("'").append(merch.getExpDate()).append("',")
+					.append(" creditlmt = ").append("'").append(merch.getCreditLimit()).append("',")
+					.append(" currdebt = ").append("'").append(merch.getCurrentDebt()).append("',")
+					.append(" availcredit = ").append("'").append(merch.getAvailableCredit()).append("',")
+					.append(" fname = ").append("'").append(merch.getfName()).append("',")
+					.append(" lname = ").append("'").append(merch.getlName()).append("',")
+					.append(" commission = ").append("'").append(merch.getCommission()).append("',")
+					.append(" profit = ").append("'").append(merch.getProfit()).append("',")
 					.append(" where usern = ").append("'").append(merch.getClientUName()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());
@@ -186,12 +187,11 @@ public class MerchantDB extends ClientDB {
 		}
 	}
 	
-	public static void genTables() throws SQLException {
+	public static void genTable() throws SQLException {
 		String tableQuery =
 			"create table merchant\n" +
 			"(\n" +
 			"	id           int(6) not null auto_increment primary key,\n" +
-			"	accid        varchar(9) as '02-'+right('000000'+cast(id as varchar(6)), 6) presistent,\n" +
 			"	usern        varchar(32) not null,\n" +
 			"	userp        varchar(64) not null,\n" +
 			"	expdate      date,\n" +
@@ -208,6 +208,7 @@ public class MerchantDB extends ClientDB {
 		Statement stmt = con.createStatement();
 
 		stmt.executeUpdate(tableQuery);
+		stmt.executeUpdate("alter table merchant auto_increment = 300000;");
 
 		stmt.close();
 		con.close();
