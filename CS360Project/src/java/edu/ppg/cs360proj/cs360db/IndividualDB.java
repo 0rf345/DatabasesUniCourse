@@ -20,7 +20,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IndividualDB {
+public class IndividualDB extends ClientDB {
 	public static List<Individual> getIndividuals() {
 		List<Individual> indivs = new ArrayList<>();
 
@@ -172,35 +172,6 @@ public class IndividualDB {
 			// Log exception
 			Logger.getLogger(IndividualDB.class.getName()).log(Level.SEVERE, null, ex);
 		}
-	}
-	
-	public static boolean checkValidUName(String clientUName) {
-		boolean valid = false;
-
-		try {
-			Connection con = DBCommon.getConnection();
-			Statement stmt = con.createStatement();
-
-			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("select * from individual, company, merchant")
-					.append(" where ")
-					.append(" usern = ").append("'").append(clientUName).append("'")
-					.append(";");
-
-			stmt.execute(insQuery.toString());
-			if (stmt.getResultSet().next() == true) {
-				System.out.println("#DB: The member already exists");
-				valid = false;
-			}
-
-			stmt.close();
-			con.close();
-		} catch (SQLException ex) {
-			// Log exception
-			Logger.getLogger(IndividualDB.class.getName()).log(Level.SEVERE, null, ex);
-		}
-
-		return valid;
 	}
 	
 	public static void genTables() {
