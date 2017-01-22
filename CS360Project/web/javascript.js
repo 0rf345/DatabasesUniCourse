@@ -213,6 +213,35 @@ function payDebtPagePOST() {
             // Everything OK
             if(xhr.responseText === "OK") {
                 window.location.href = "payStuff.html";
+                //add amount in debt right now 
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function payPOST() {
+    var object = new Object();
+    if(document.getElementById("payAmount").checkValidity() === false) {
+        alert("Please pay at least 1€");
+        return;
+    }
+    
+    object.amount = $("#payAmount").val();
+    
+    var request = JSON.stringify(object);
+    var url = "debtpay";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                $("#grabMe").html("Thanks for giving us your money.");
             }else{
                 $("body").html("You owe us money");
             }
