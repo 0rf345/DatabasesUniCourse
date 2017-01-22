@@ -246,10 +246,21 @@ FOOTER
 }
 
 .button2 {
-    font: bold;
+    margin-bottom: 5px;
+    font-weight: bold;
     height: 50px;
     width: 100%;
     background: #fc7167;
+    border-radius: 5px;
+    cursor: pointer;	
+}
+
+.button3 {
+    margin-bottom: 5px;
+    font-weight: bold;
+    height: 50px;
+    width: 100%;
+    background: #4aadef;
     border-radius: 5px;
     cursor: pointer;	
 }

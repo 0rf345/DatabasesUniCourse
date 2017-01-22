@@ -196,6 +196,30 @@ function deleteMePOST() {
     xhr.send(request);
 }
 
+function payDebtPagePOST() {
+    var object = new Object();
+    object.action= "howMuchDoIOwe";
+    
+    var request = JSON.stringify(object);
+    var url = "debtquestion";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything OK
+            if(xhr.responseText === "OK") {
+                window.location.href = "payStuff.html";
+            }else{
+                $("body").html("You owe us money");
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+
 // CCC specific functions
 
 /**
