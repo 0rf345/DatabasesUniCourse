@@ -121,8 +121,7 @@ public class MerchantDB extends ClientDB {
 					.append("'").append(merch.getfName()).append("',")
 					.append("'").append(merch.getlName()).append("',")
 					.append("'").append(merch.getCommission()).append("',")
-					.append("'").append(merch.getProfit()).append("',")
-					.append("'").append(merch.getClientUName()).append("'")
+					.append("'").append(merch.getProfit()).append("'")
 					.append(");");
 			stmt.executeUpdate(insQuery.toString());
 			System.out.println("#DB: The member was successfully added to the database.");
