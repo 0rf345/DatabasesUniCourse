@@ -73,7 +73,7 @@ function registerPOST() {
         }
         var num = $("#howMany").val();
         object.num = num;
-        var arr = {};
+        object.employees = [];
         for(var i = 0; i < num; i++) {
             if(document.getElementById("first"+i).checkValidity() === false) {
                 alert("Please input first name for empoyee #" +(i+1));
@@ -88,9 +88,8 @@ function registerPOST() {
             var obj = new Object();
             obj.first = firsts[i];
             obj.last = lasts[i];
-            arr[i] = obj;
+            object.employees.push(obj);
         }
-        object.employees = arr;
         if(document.getElementById("name").checkValidity() === false) {
                 alert("Please input name for your company");
                 return;
