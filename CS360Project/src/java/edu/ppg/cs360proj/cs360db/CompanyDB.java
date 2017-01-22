@@ -12,8 +12,6 @@ import edu.ppg.cs360proj.cs360db.model.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -38,7 +36,7 @@ public class CompanyDB extends ClientDB {
 			ResultSet res = stmt.getResultSet();
 			while(res.next() == true) {
 				Company cmp = new Company();
-				cmp.setAccountID(res.getString("accid"));
+				cmp.setAccountID(res.getString("id"));
 				cmp.setClientUName(res.getString("usern"));
 				cmp.setClientPass(res.getString("userp"));
 				cmp.setExpDate(res.getString("expdate"));
@@ -50,7 +48,7 @@ public class CompanyDB extends ClientDB {
 				insQuery.setLength(0);
 				insQuery.append("select * from company_employee")
 						.append(" where ")
-						.append(" company_accid = '").append(cmp.getAccountID()).append("'");
+						.append(" company_id = '").append(cmp.getAccountID()).append("'");
 				res = stmt.getResultSet();
 				while(res.next() == true) {
 					Employee emp = new Employee();
@@ -89,7 +87,7 @@ public class CompanyDB extends ClientDB {
 
 			ResultSet res = stmt.getResultSet();
 			if (res.next() == true) {
-				cmp.setAccountID(res.getString("accid"));
+				cmp.setAccountID(res.getString("id"));
 				cmp.setClientUName(res.getString("usern"));
 				cmp.setClientPass(res.getString("userp"));
 				cmp.setExpDate(res.getString("expdate"));
@@ -101,7 +99,7 @@ public class CompanyDB extends ClientDB {
 				insQuery.setLength(0);
 				insQuery.append("select * from company_employee")
 						.append(" where ")
-						.append(" company_accid = '").append(cmp.getAccountID()).append("'");
+						.append(" company_id = '").append(cmp.getAccountID()).append("'");
 				res = stmt.getResultSet();
 				while(res.next() == true) {
 					Employee emp = new Employee();
@@ -129,38 +127,39 @@ public class CompanyDB extends ClientDB {
 			ResultSet res;
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("insert into company")
+			insQuery.append("insert into company ")
 					.append(" ( usern, userp, expdate, creditlmt, currdebt, availcredit, companyname ) ")
 					.append(" VALUES (")
-					.append("'").append(cmp.getClientUName()).append("'")
-					.append("'").append(cmp.getClientPass()).append("'")
-					.append("'").append(cmp.getExpDate()).append("'")
-					.append("'").append(cmp.getCreditLimit()).append("'")
-					.append("'").append(cmp.getCurrentDebt()).append("'")
-					.append("'").append(cmp.getAvailableCredit()).append("'")
+					.append("'").append(cmp.getClientUName()).append("',")
+					.append("'").append(cmp.getClientPass()).append("',")
+					.append("'").append(cmp.getExpDate()).append("',")
+					.append("'").append(cmp.getCreditLimit()).append("',")
+					.append("'").append(cmp.getCurrentDebt()).append("',")
+					.append("'").append(cmp.getAvailableCredit()).append("',")
 					.append("'").append(cmp.getCompanyName()).append("'")
 					.append(");");
+			Logger.getLogger(CompanyDB.class.getName()).log(Level.SEVERE, insQuery.toString());
 			stmt.executeUpdate(insQuery.toString());
 
 			insQuery.setLength(0);
-			insQuery.append("select accid from Company ")
+			insQuery.append("select id from company ")
 					.append(" where ")
 					.append(" usern = ").append("'").append(cmp.getClientUName()).append("'")
 					.append(";");
 			stmt.execute(insQuery.toString());
 			res = stmt.getResultSet();
-			cmp.setAccountID(res.getString("accid"));
+			if(res.next() == true) {
+				cmp.setAccountID(res.getString("id"));
+			}
 			
-			Iterator it = cmp.getEmployees().entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String,Employee> pair = (Map.Entry) it.next();
+			for(Employee emp : cmp.getEmployees()){
 				insQuery.setLength(0);
 				insQuery.append("insert into company_employee")
-						.append(" ( company_accid, fname, lname ) ")
+						.append(" ( company_id, fname, lname ) ")
 						.append(" VALUES (")
-						.append("'").append(cmp.getAccountID()).append("'")
-						.append("'").append(pair.getValue().getfName()).append("'")
-						.append("'").append(pair.getValue().getlName()).append("'")
+						.append("'").append(cmp.getAccountID()).append("',")
+						.append("'").append(emp.getfName()).append("',")
+						.append("'").append(emp.getlName()).append("'")
 						.append(");");
 				stmt.execute(insQuery.toString());
 			}
@@ -182,12 +181,12 @@ public class CompanyDB extends ClientDB {
 			StringBuilder insQuery = new StringBuilder();
 			insQuery.append("update company")
 					.append(" set ")
-					.append(" userp = ").append("'").append(cmp.getClientPass()).append("'")
-					.append(" expdate = ").append("'").append(cmp.getExpDate()).append("'")
-					.append(" creditlmt = ").append("'").append(cmp.getCreditLimit()).append("'")
-					.append(" currdebt = ").append("'").append(cmp.getCurrentDebt()).append("'")
-					.append(" availcredit = ").append("'").append(cmp.getAvailableCredit()).append("'")
-					.append(" companyname = ").append("'").append(cmp.getCompanyName()).append("'")
+					.append(" userp = ").append("'").append(cmp.getClientPass()).append("',")
+					.append(" expdate = ").append("'").append(cmp.getExpDate()).append("',")
+					.append(" creditlmt = ").append("'").append(cmp.getCreditLimit()).append("',")
+					.append(" currdebt = ").append("'").append(cmp.getCurrentDebt()).append("',")
+					.append(" availcredit = ").append("'").append(cmp.getAvailableCredit()).append("',")
+					.append(" companyname = ").append("'").append(cmp.getCompanyName()).append("',")
 					.append(" where usern = ").append("'").append(cmp.getClientUName()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());
@@ -228,7 +227,6 @@ public class CompanyDB extends ClientDB {
 			"create table company\n" +
 			"(\n" +
 			"	id           int(6) not null auto_increment primary key,\n" +
-			"	accid        varchar(9) as '01-'+right('000000'+cast(id as varchar(6)), 6) persistent,\n" +
 			"	usern        varchar(32) not null,\n" +
 			"	userp        varchar(64) not null,\n" +
 			"	expdate      date,\n" +
@@ -240,20 +238,22 @@ public class CompanyDB extends ClientDB {
 		
 		String companyEmployeeTableQuery =
 			"create table company_employee\n" +
-			"	id     int(3) not null auto_increment primary key,\n" +
-			"	empid  varchar(9) as company_accid+'-'+right('000'+cast(id as varchar(3)), 3) persistent,\n" +
-			"	fname  varchar(64) not null,\n" +
-			"	lname  varchar(64) not null,\n" +
-			"	constraint `fk_company_accid`\n" +
-			"		foreign key (company_accid)\n" +
-			"			references company(accid)\n" +
-			"			on update cascade\n" +
+			"(\n" +
+			"	id          int(8) not null auto_increment primary key,\n" +
+			"	company_id  int(6) not null,\n" +
+			"	fname       varchar(64) not null,\n" +
+			"	lname       varchar(64) not null,\n" +
+			"	constraint `fk_cmpemp_company_id`\n" +
+			"		foreign key (company_id) references company (id)\n" +
+			"		on update cascade\n" +
+			"		on delete cascade\n" +
 			") engine = InnoDB;";
 				
 		Connection con = DBCommon.getConnection();
 		Statement stmt = con.createStatement();
 
 		stmt.executeUpdate(companyTableQuery);
+		stmt.executeUpdate("alter table company auto_increment = 200000;");
 		stmt.executeUpdate(companyEmployeeTableQuery);
 
 		stmt.close();
