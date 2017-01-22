@@ -174,7 +174,7 @@ public class IndividualDB extends ClientDB {
 		}
 	}
 	
-	public static void genTables() {
+	public static void genTables() throws SQLException {
 		String tableQuery =
 			"create table individual\n" +
 			"(\n" +
@@ -189,17 +189,13 @@ public class IndividualDB extends ClientDB {
 			"	fname        varchar(64) not null,\n" +
 			"	lname        varchar(64) not null\n" +
 			") engine = InnoDB;";
-		try {
-			Connection con = DBCommon.getConnection();
-			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate(tableQuery);
+		Connection con = DBCommon.getConnection();
+		Statement stmt = con.createStatement();
 
-			stmt.close();
-			con.close();
-		} catch (SQLException ex) {
-			// Log exception
-			Logger.getLogger(IndividualDB.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		stmt.executeUpdate(tableQuery);
+
+		stmt.close();
+		con.close();
 	}
 }
