@@ -55,7 +55,7 @@ create table merchant
 	fname        varchar(64) not null,
 	lname        varchar(64) not null,
 	commission   decimal(5,2) not null default 5.00,
-	profit       decimal(15,2) not null
+	profit       decimal(15,2) not null default 0
 ) engine = InnoDB;
 
 alter table merchant auto_increment = 300000;
