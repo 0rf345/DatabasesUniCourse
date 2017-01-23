@@ -78,7 +78,8 @@ public class CompTransactionDB {
 			ResultSet res = stmt.getResultSet();
 			if (res.next() == true) {
 				ctr.setTrsctID(res.getString("id"));
-				ctr.setCompID(res.getString("indiv_id"));
+				ctr.setCompID(res.getString("comp_id"));
+				ctr.setEmpID(res.getString("emp_id"));
 				ctr.setMerchID(res.getString("merch_id"));
 				ctr.setTrsctDate(res.getString("trsctdate"));
 				ctr.setAmount(BigDecimal.valueOf(res.getDouble("amount")));
@@ -102,9 +103,10 @@ public class CompTransactionDB {
 
 			StringBuilder insQuery = new StringBuilder();
 			insQuery.append("insert into individual_transaction ")
-					.append(" ( indiv_id, merch_id, trsctdate, amount, ischarge ) ")
+					.append(" ( comp_id, emp_id, merch_id, trsctdate, amount, ischarge ) ")
 					.append(" VALUES (")
 					.append("'").append(ctr.getCompID()).append("',")
+					.append("'").append(ctr.getEmpID()).append("',")
 					.append("'").append(ctr.getMerchID()).append("',")
 					.append("'").append(ctr.getTrsctDate()).append("',")
 					.append("'").append(ctr.getAmount()).append("',")
@@ -129,7 +131,8 @@ public class CompTransactionDB {
 			StringBuilder insQuery = new StringBuilder();
 			insQuery.append("update individual_transaction")
 					.append(" set ")
-					.append(" indiv_id = ").append("'").append(ctr.getCompID()).append("',")
+					.append(" comp_id = ").append("'").append(ctr.getCompID()).append("',")
+					.append(" emp_id = ").append("'").append(ctr.getEmpID()).append("',")
 					.append(" merch_id = ").append("'").append(ctr.getMerchID()).append("',")
 					.append(" trsctdate = ").append("'").append(ctr.getTrsctDate()).append("',")
 					.append(" amount = ").append("'").append(ctr.getAmount()).append("',")
@@ -181,10 +184,10 @@ public class CompTransactionDB {
 			"	amount     decimal(15,2) not null default 0,\n" +
 			"	ischarge   boolean not null default false,\n" +
 			"	constraint `fk_cmptrs_company_id`\n" +
-			"		foreign key (company_id) references company (id)\n" +
+			"		foreign key (comp_id) references company (id)\n" +
 			"		on update cascade,\n" +
 			"	constraint `fk_cmptrs_employee_id`\n" +
-			"		foreign key (employee_id) references company_employee (id)\n" +
+			"		foreign key (emp_id) references company_employee (id)\n" +
 			"		on update cascade,\n" +
 			"	constraint `fk_cmptrs_merch_id`\n" +
 			"		foreign key (merch_id) references merchant (id)\n" +

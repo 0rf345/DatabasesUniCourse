@@ -90,10 +90,10 @@ create table company_transaction
 	amount     decimal(15,2) not null default 0,
 	ischarge   boolean not null default false,
 	constraint `fk_cmptrs_company_id`
-		foreign key (company_id) references company (id)
+		foreign key (comp_id) references company (id)
 		on update cascade,
 	constraint `fk_cmptrs_employee_id`
-		foreign key (employee_id) references company_employee (id)
+		foreign key (emp_id) references company_employee (id)
 		on update cascade,
 	constraint `fk_cmptrs_merch_id`
 		foreign key (merch_id) references merchant (id)
