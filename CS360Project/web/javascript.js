@@ -203,6 +203,36 @@ function whatAmIPOST() {
     xhr.send(request);
 }
 
+function buyPOST() {
+    var object = new Object();
+    object.action = "buy";
+    object.client = getCookie("cltype");
+    if(object.client === "company") {
+        object.fname = getCookie("fname");
+        object.lname = getCookie("lname");
+    }
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
 function buyPagePOST() {
     buyPage();
     var object = new Object();
