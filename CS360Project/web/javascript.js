@@ -122,10 +122,18 @@ function registerPOST() {
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
-            if(xhr.responseText === "OK") {
-                $("body").html("SUCCESS registering new account");
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.authstatus === "authenticated") {
+                window.location.href = "buyCap.html";
+            }else if(jsonObj.authstatus === "already_authenticated"){
+                alert("You hace already loggen-in from another device and never logged-out.");
+                loginPage();
+            }else if(jsonObj.authstatus === "unauthorised") {
+                alert("Username - password combo was wrong, please try again.");
+                loginPage();
             }else{
-                $("body").html("Something went terribly wrong");
+                alert("Something went terribly wrong.");
+                loginPage();
             }
         }
     };
