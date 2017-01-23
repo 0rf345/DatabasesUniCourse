@@ -74,15 +74,15 @@ function landing() {
         if(cltype === "company") {
             document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
             document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
+            indComPage();
         }else if(cltype === "merchant") {
             // other page
             return;
         }else if(cltype === "CCC") {
-            // CCC specific page
             cccPage();
             return;
         }else if(cltype === "individual"){
-            window.location.href = "buyCap.html";
+            indComPage();
             return;
         }else{
             alert("Shouldn't be here.");
@@ -293,6 +293,10 @@ function buyPagePOST() {
 }
 
 // Redirections
+
+function indComPage() {
+    window.location.href = "buyCap.html";
+}
 
 function cccPage() {
     window.location.href = "ccc.html";
