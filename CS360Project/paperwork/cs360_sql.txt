@@ -155,19 +155,3 @@ WHERE
 	WHERE merchant_sales_id = MAX(merchant_sales).id
 
 
-
-
---select * from merchants m, (
-	select mrname, max(tottrans) as maxtrans 
-	from 
-		(select mrname, count(mrname) as tottrans 
-		from transacts 
-		where
-		clname='' and book<>'--balance--' and book<>'--
-		manual-balance--' and book<>'--return--' and
-		book<>'--best-reward--' and
-		month(date)=month(now())
-		group by mrname)
-		tmp1) tmp2
-	where m.name = tmp2.mrname
-	
