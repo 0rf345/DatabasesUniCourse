@@ -28,12 +28,18 @@ function loginPOST() {
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
-            if(xhr.responseText === "authenticated") {
-                alert("authorized");
-                $("body").html("LOGGED IN");
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.authstatus === "authenticated") {
+                window.location.href = "buyCap.html";
+            }else if(jsonObj.authstatus === "already_authenticated"){
+                alert("You hace already loggen-in from another device and never logged-out.");
+                loginPage();
+            }else if(jsonObj.authstatus === "unauthorised") {
+                alert("Username - password combo was wrong, please try again.");
+                loginPage();
             }else{
-                alert("unauthorized");
-                $("body").html("GET OUTTA TOWN");
+                alert("Something went terribly wrong.");
+                loginPage();
             }
         }
     };
@@ -123,17 +129,15 @@ function registerPOST() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
             var jsonObj = JSON.parse(xhr.responseText);
-            if(jsonObj.authstatus === "authenticated") {
-                window.location.href = "buyCap.html";
-            }else if(jsonObj.authstatus === "already_authenticated"){
-                alert("You hace already loggen-in from another device and never logged-out.");
+            if(jsonObj.regstatus === "success") {
+                alert("You have successfully registered a new account.");
                 loginPage();
-            }else if(jsonObj.authstatus === "unauthorised") {
-                alert("Username - password combo was wrong, please try again.");
-                loginPage();
+            }else if(jsonObj.regstatus === "failure" && jsonObj.reason === "user_exists"){
+                $("#usern").val("");
+                return;
             }else{
                 alert("Something went terribly wrong.");
-                loginPage();
+                registerPage();
             }
         }
     };
