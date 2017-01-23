@@ -279,14 +279,15 @@ function getEmployeesPOST() {
             var a = jsonObj.employees;
             if(jsonObj.status === "success") {
                 var str = "";
+                str += "<p><label>Which employee are you?</label></p>";
                 str += ("<select id='employee' required>");
                 for(var i = 0 ; i < a.length; i++) {
                     str += ("<option value='"+a[i].id+"'>ID: #"+ a[i].id + " " +
-                            a[i].fname + " " + a[i].lname +
+                            a[i].first + " " + a[i].last +
                             "</option>");
                 }
                 str += ("</select>");
-                $("#grabMe").html(str);
+                $("#companyStuff2").html(str);
             }else{
                 alert("Failure.");
                 return;
@@ -314,6 +315,7 @@ function buyPagePOST() {
             var a = jsonObj.merchants;
             if(jsonObj.status === "success") {
                 var str = "";
+                str += "<p><label>Which merchant do you wish to buy something from?</label></p>";
                 str += ("<select id='merchant'>");
                 for(var i = 0 ; i < a.length; i++) {
                     str += ("<option value='"+a[i].id+"'>"+
@@ -328,12 +330,9 @@ function buyPagePOST() {
                 
                 if(getCookie("cltype") === "company") {
                     getEmployeesPOST();
-                    setTimeout(function(){
-                        $("#grabMe").append(str);    
-                    }, 100); // If out of order, get the waiting time higher
-                }else{
-                    $("#grabMe").html(str);
                 }
+                $("#grabMe").html(str);
+                
                 
             }else{
                 alert("Failure.");

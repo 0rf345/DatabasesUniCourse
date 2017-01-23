@@ -273,3 +273,7 @@ FOOTER
 input:invalid {
     border: 2px solid red!important;
 }
+
+input {
+    margin-bottom: 5px;
+}
