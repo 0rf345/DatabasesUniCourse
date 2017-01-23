@@ -51,7 +51,17 @@ public class DBCommon {
 				MerchantDB.genTable();
 			}
 
-			// TODO: Add clauses for "TransactionDB"
+			res = dbmd.getTables(null, null, "individual_transaction", null);
+			if(!res.next()) {
+				IndivTransactionDB.genTable();
+			}
+
+			res = dbmd.getTables(null, null, "company_transaction", null);
+			if(!res.next()) {
+				CompTransactionDB.genTable();
+			}
+
+			
 			return true;
 		} catch (SQLException ex) {
 			Logger.getLogger(DBCommon.class.getName()).log(Level.SEVERE, null, ex);
