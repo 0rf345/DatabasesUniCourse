@@ -4,6 +4,22 @@
  * and open the template in the editor.
  */
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 function loginPOST() {
     if(document.getElementById("usern").checkValidity() === false) {
         alert("Please input username");
@@ -30,19 +46,24 @@ function loginPOST() {
             // Everything OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.authstatus === "authenticated") {
-                /**
+                
                 var cltype = whatAmIPOST();
                 if(cltype === "company") {
-                    // get employy name
+                    document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
+                    document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
                 }else if(cltype === "merchant") {
                     // other page
                 }else if(cltype === "CCC") {
                     // CCC specific page
+                }else{
+                    alert("Something went terribly wrong.");
+                    return;
                 }
-                */
+                document.cookie = ("cltype="+cltype);
+                
                 window.location.href = "buyCap.html";
             }else if(jsonObj.authstatus === "already_authenticated"){
-                alert("You hace already loggen-in from another device and never logged-out.");
+                alert("You have already loggen-in from another device and never logged-out.");
                 loginPage();
             }else if(jsonObj.authstatus === "unauthorised") {
                 alert("Username - password combo was wrong, please try again.");
