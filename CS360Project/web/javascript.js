@@ -172,10 +172,12 @@ function logout() {
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
-            if(xhr.responseText === "OK") {
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.logoutstatus === "success") {
                 loginPage();
             }else{
-                $("body").html("You owe us money");
+                alert("You did something you shouldn't be doing.");
+                return;
             }
         }
     };
