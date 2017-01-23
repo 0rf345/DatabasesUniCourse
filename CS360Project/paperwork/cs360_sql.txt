@@ -1,0 +1,157 @@
+--Purchase, if customer has enough credit limit then purchase is succesful and is stored
+--Purchase done by individuaL
+-- ??????????
+IF (SELECT * FROM individual
+	WHERE id = @id AND availcredit - @amount > 0)
+ 	THEN INSERT INTO individual_transaction (id, indiv_id, merch_id, trsctdate, amount, ischarge) VALUES (@id, @indiv_id, @merch_id, CURDATE(), @amount, true)  
+END IF
+
+
+IF (SELECT * FROM individual
+	WHERE id = @id AND availcredit - @amount > 0)
+{ 	INSERT INTO individual_transaction (id, indiv_id, merch_id, trsctdate, amount, ischarge) VALUES (@id, @indiv_id, @merch_id, CURDATE(), @amount, true)  
+}
+
+INSERT INTO individual_transaction (id, indiv_id, merch_id, trsctdate, amount, ischarge) VALUES (@id, @indiv_id, @merch_id, CURDATE(), @amount, true) 
+WHERE (SELECT * FROM individual
+	WHERE id = @id AND availcredit - @amount > 0
+)
+
+UPDATE individual
+SET availcredit = availcredit - @amount, currdebt = currdebt + @amount
+WHERE id = @id;
+
+UPDATE merchant
+SET profit = profit + @amount, currdebt = currdebt - commission * @amount
+WHERE id = @id;
+
+
+--Purschase done by company
+
+INSERT INTO company_transaction (id, comp_id, emp_id, merch_id, trsctdate, amount, ischarge) VALUES (@id, @comp_id, @merch_id, @emp_id CURDATE(), @amount, true) 
+WHERE (SELECT * FROM individual
+	WHERE id = @id AND availcredit - @amount > 0
+)
+
+UPDATE company
+SET availcredit = availcredit - @amount, currdebt = currdebt + @amount
+WHERE id = @id;
+
+UPDATE merchant
+SET profit = profit + @amount, currdebt = currdebt - commission * @amount
+WHERE id = @id;
+
+
+--Return by Individual
+--Set isCharge to false, update Credit limit for individual
+--Update Profit and Current Debt for merchant
+
+UPDATE individual
+SET creditlmt = creditlmt + @amount
+WHERE id = @id;
+
+UPDATE individual_transaction
+SET ischarge = false
+WHERE indiv_id = @id;
+
+UPDATE merchant
+SET profit = profit - @amount, currdebt = currdebt + commission * @amount
+WHERE id = @id;
+
+
+--Return by Company
+UPDATE company
+SET creditlmt = creditlmt + @amount
+WHERE id = @id;
+
+UPDATE company_transaction
+SET isCharge = false
+WHERE comp_id = @id;
+
+UPDATE merchant
+SET profit = profit - @amount, currdebt = currdebt + commission * @amount
+WHERE id = @id;
+
+
+--Payment by costumer or merchant, paying off debt
+
+UPDATE individual
+SET currdebt = currdebt - @payment
+WHERE id = @id  AND currdebt - @payment > 0;
+
+UPDATE company
+SET currdebt = currdebt - @payment
+WHERE id = @id AND currdebt - @payment > 0;
+
+UPDATE merchant
+SET currdebt = currdebt - @payment
+WHERE id = @id AND currdebt - @payment > 0;
+
+
+--Customer or merchant can ask for transactions done at a specific chronological period
+--So if it's a customer we need to search at both invidual and company table to find them
+--If it's a merchant we need to look at both individual and company table for all it's transactions
+
+--Search Transactions By Date
+
+SELECT * FROM (
+	SELECT id, trsctdate, amount, ischarge
+	FROM individual_transaction
+	UNION
+	SELECT id, trsctdate, amount, ischarge
+	FROM company_transaction
+) AS U
+WHERE @idtype = @id AND trsctdate BETWEEN '@fromdate'  AND '@todate' ORDER BY trsctdate DESC;
+
+--Depending on who does the search (company, individual or merchant) @idtype is different and has to respond to that, @id refers to the id of the person making the search
+
+
+
+
+--Show good clients, all clients that don't have any debt towards CCC
+SELECT * FROM (
+	SELECT id, usern, lname, currdebt FROM individual
+	UNION
+	SELECT id, usern, companyname, currdebt FROM company
+	UNION
+	SELECT id, usern, lname, currdebt FROM merchant
+) AS U
+WHERE currdebt = 0
+
+--Show bad clients
+SELECT * FROM (
+	SELECT id, usern, lname, currdebt FROM individual
+	UNION
+	SELECT id, usern, companyname, currdebt FROM company
+	UNION
+	SELECT id, usern, lname, currdebt FROM merchant
+) AS U
+WHERE currdebt > 0
+ORDER BY currdebt ASC;
+
+--GAAAAHHHH
+--Merchant of the month with most sales, decrease amount they own by 5%
+--If ischarge is true then transaction was a buy and not a return
+--ischarge is false then transaction was a return
+
+UPDATE merchant
+SET currdebt = currdebt - (5/100)*currdebt
+WHERE
+	SELECT id
+	FROM 
+		(SELECT merch_accid, 
+			COUNT(merch_id) AS merchant_sales
+		FROM (
+			SELECT *
+			FROM individual_transaction
+			UNION
+			SELECT *
+			FROM company_transaction
+			WHERE MONTH(trsctdate) = MONTH(CURDATE())
+				AND YEAR(trsctdate) = YEAR(CURDATE())
+				AND ischarge = true
+			GROUP BY merch_accid	
+			) merchant_sales_id
+	WHERE merchant_sales_id = MAX(merchant_sales).id
+
+
