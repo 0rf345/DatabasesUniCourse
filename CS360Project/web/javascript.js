@@ -245,7 +245,9 @@ function buyPOST() {
             // Everything went OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.status === "success") {
-                
+                alert("Your buy was successful");
+                indComPage();
+                return;
             }else{
                 alert("Failure.");
                 return;
