@@ -10,6 +10,8 @@ package edu.ppg.cs360proj.cs360db;
 import edu.ppg.cs360proj.cs360db.model.Company;
 import edu.ppg.cs360proj.cs360db.model.Employee;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +42,9 @@ public class CompanyDB extends ClientDB {
 				cmp.setClientUName(res.getString("usern"));
 				cmp.setClientPass(res.getString("userp"));
 				cmp.setExpDate(res.getString("expdate"));
-				cmp.setCreditLimit(res.getInt("creditlmt"));
-				cmp.setCurrentDebt(res.getInt("currdebt"));
-				cmp.setAvailableCredit(res.getInt("availcredit"));
+				cmp.setCreditLimit(BigDecimal.valueOf(res.getDouble("creditlmt")));
+				cmp.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
+				cmp.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				cmp.setCompanyName(res.getString("companyname"));
 				
 				insQuery.setLength(0);
@@ -91,9 +93,9 @@ public class CompanyDB extends ClientDB {
 				cmp.setClientUName(res.getString("usern"));
 				cmp.setClientPass(res.getString("userp"));
 				cmp.setExpDate(res.getString("expdate"));
-				cmp.setCreditLimit(res.getInt("creditlmt"));
-				cmp.setCurrentDebt(res.getInt("currdebt"));
-				cmp.setAvailableCredit(res.getInt("availcredit"));
+				cmp.setCreditLimit(BigDecimal.valueOf(res.getDouble("creditlmt")));
+				cmp.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
+				cmp.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				cmp.setCompanyName(res.getString("companyname"));
 				
 				insQuery.setLength(0);

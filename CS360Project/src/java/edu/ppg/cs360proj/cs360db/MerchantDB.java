@@ -9,6 +9,8 @@ package edu.ppg.cs360proj.cs360db;
 
 import edu.ppg.cs360proj.cs360db.model.Merchant;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,13 +45,13 @@ public class MerchantDB extends ClientDB {
 				merch.setClientUName(res.getString("usern"));
 				merch.setClientPass(res.getString("userp"));
 				merch.setExpDate(res.getString("expdate"));
-				merch.setCreditLimit(res.getInt("creditlmt"));
-				merch.setCurrentDebt(res.getInt("currdebt"));
-				merch.setAvailableCredit(res.getInt("availcredit"));
+				merch.setCreditLimit(BigDecimal.valueOf(res.getDouble("creditlmt")));
+				merch.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
+				merch.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				merch.setfName(res.getString("fname"));
 				merch.setlName(res.getString("fname"));
-				merch.setCommission(res.getInt("commission"));
-				merch.setProfit(res.getInt("profit"));
+				merch.setCommission(BigDecimal.valueOf(res.getDouble("commission")));
+				merch.setProfit(BigDecimal.valueOf(res.getDouble("profit")));
 				merchs.add(merch);
 			}
 
@@ -84,13 +86,13 @@ public class MerchantDB extends ClientDB {
 				merch.setClientUName(res.getString("usern"));
 				merch.setClientPass(res.getString("userp"));
 				merch.setExpDate(res.getString("expdate"));
-				merch.setCreditLimit(res.getInt("creditlmt"));
-				merch.setCurrentDebt(res.getInt("currdebt"));
-				merch.setAvailableCredit(res.getInt("availcredit"));
+				merch.setCreditLimit(BigDecimal.valueOf(res.getDouble("creditlmt")));
+				merch.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
+				merch.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				merch.setfName(res.getString("fname"));
 				merch.setlName(res.getString("fname"));
-				merch.setCommission(res.getInt("commission"));
-				merch.setProfit(res.getInt("profit"));
+				merch.setCommission(BigDecimal.valueOf(res.getDouble("commission")));
+				merch.setProfit(BigDecimal.valueOf(res.getDouble("profit")));
 			}
 
 			stmt.close();

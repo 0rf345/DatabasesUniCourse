@@ -9,6 +9,8 @@ package edu.ppg.cs360proj.cs360db;
 
 import edu.ppg.cs360proj.cs360db.model.IndivTransaction;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class IndivTransactionDB {
 				itr.setIndivID(res.getString("indiv_id"));
 				itr.setMerchID(res.getString("merch_id"));
 				itr.setTrsctDate(res.getString("trsctdate"));
-				itr.setAmount(res.getInt("amount"));
+				itr.setAmount(BigDecimal.valueOf(res.getDouble("amount")));
 				itr.setIsCharge(res.getBoolean("ischarge"));
 				itrs.add(itr);
 			}
@@ -78,7 +80,7 @@ public class IndivTransactionDB {
 				itr.setIndivID(res.getString("indiv_id"));
 				itr.setMerchID(res.getString("merch_id"));
 				itr.setTrsctDate(res.getString("trsctdate"));
-				itr.setAmount(res.getInt("amount"));
+				itr.setAmount(BigDecimal.valueOf(res.getDouble("amount")));
 				itr.setIsCharge(res.getBoolean("ischarge"));
 			}
 

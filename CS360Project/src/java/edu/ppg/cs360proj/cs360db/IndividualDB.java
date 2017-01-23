@@ -9,6 +9,8 @@ package edu.ppg.cs360proj.cs360db;
 
 import edu.ppg.cs360proj.cs360db.model.Individual;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +41,9 @@ public class IndividualDB extends ClientDB {
 				indiv.setClientUName(res.getString("usern"));
 				indiv.setClientPass(res.getString("userp"));
 				indiv.setExpDate(res.getString("expdate"));
-				indiv.setCreditLimit(res.getInt("creditlmt"));
-				indiv.setCurrentDebt(res.getInt("currdebt"));
-				indiv.setAvailableCredit(res.getInt("availcredit"));
+				indiv.setCreditLimit(BigDecimal.valueOf(res.getDouble("creditlmt")));
+				indiv.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
+				indiv.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				indiv.setfName(res.getString("fname"));
 				indiv.setlName(res.getString("fname"));
 				indivs.add(indiv);
@@ -78,9 +80,9 @@ public class IndividualDB extends ClientDB {
 				indiv.setClientUName(res.getString("usern"));
 				indiv.setClientPass(res.getString("userp"));
 				indiv.setExpDate(res.getString("expdate"));
-				indiv.setCreditLimit(res.getInt("creditlmt"));
-				indiv.setCurrentDebt(res.getInt("currdebt"));
-				indiv.setAvailableCredit(res.getInt("availcredit"));
+				indiv.setCreditLimit(BigDecimal.valueOf(res.getDouble("creditlmt")));
+				indiv.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
+				indiv.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				indiv.setfName(res.getString("fname"));
 				indiv.setlName(res.getString("fname"));
 			}
