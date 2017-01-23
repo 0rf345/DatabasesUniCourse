@@ -8,6 +8,7 @@
 package edu.ppg.cs360proj.cs360db.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
@@ -19,7 +20,7 @@ public class CompTransaction implements Serializable {
 	private String empID;
 	private String merchID;
 	private String trsctDate;
-	private int amount;
+	private BigDecimal amount;
 	private boolean isCharge;
 
 	public String getTrsctID() {
@@ -42,7 +43,7 @@ public class CompTransaction implements Serializable {
 		return trsctDate;
 	}
 
-	public int getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
@@ -70,7 +71,7 @@ public class CompTransaction implements Serializable {
 		this.trsctDate = trsctDate;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
@@ -84,7 +85,7 @@ public class CompTransaction implements Serializable {
 		this.empID = "";
 		this.merchID = "";
 		this.trsctDate = "";
-		this.amount = 0;
+		this.amount = new BigDecimal(0);
 		this.isCharge = false;
 	}
 

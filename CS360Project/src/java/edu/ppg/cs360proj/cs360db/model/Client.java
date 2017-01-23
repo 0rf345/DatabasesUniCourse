@@ -8,15 +8,16 @@
 package edu.ppg.cs360proj.cs360db.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class Client implements Serializable {
 	private String clientUName;
 	private String clientPass;
 	private String accountID;
 	private String expDate;
-	private Integer creditLimit;
-	private Integer currentDebt;
-	private Integer availableCredit;
+	private BigDecimal creditLimit;
+	private BigDecimal currentDebt;
+	private BigDecimal availableCredit;
 
 	public String getClientUName() {
 		return clientUName;
@@ -34,15 +35,15 @@ public class Client implements Serializable {
 		return expDate;
 	}
 
-	public Integer getCreditLimit() {
+	public BigDecimal getCreditLimit() {
 		return creditLimit;
 	}
 
-	public Integer getCurrentDebt() {
+	public BigDecimal getCurrentDebt() {
 		return currentDebt;
 	}
 
-	public Integer getAvailableCredit() {
+	public BigDecimal getAvailableCredit() {
 		return availableCredit;
 	}
 
@@ -62,15 +63,15 @@ public class Client implements Serializable {
 		this.expDate = expDate;
 	}
 
-	public void setCreditLimit(Integer creditLimit) {
+	public void setCreditLimit(BigDecimal creditLimit) {
 		this.creditLimit = creditLimit;
 	}
 
-	public void setCurrentDebt(Integer currentDebt) {
+	public void setCurrentDebt(BigDecimal currentDebt) {
 		this.currentDebt = currentDebt;
 	}
 
-	public void setAvailableCredit(Integer availableCredit) {
+	public void setAvailableCredit(BigDecimal availableCredit) {
 		this.availableCredit = availableCredit;
 	}
 
@@ -79,9 +80,9 @@ public class Client implements Serializable {
 		this.clientPass = "";
 		this.accountID = "";
 		this.expDate = null;
-		this.creditLimit = 0;
-		this.currentDebt = 0;
-		this.availableCredit = 0;
+		this.creditLimit = new BigDecimal(0);
+		this.currentDebt = new BigDecimal(0);
+		this.availableCredit = new BigDecimal(0);
 	}
 
 	@Override

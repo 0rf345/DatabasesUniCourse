@@ -7,31 +7,33 @@
  */
 package edu.ppg.cs360proj.cs360db.model;
 
-public class Merchant extends Individual {
-	private Integer commission;
-	private Integer profit;
+import java.math.BigDecimal;
 
-	public Integer getCommission() {
+public class Merchant extends Individual {
+	private BigDecimal commission;
+	private BigDecimal profit;
+
+	public BigDecimal getCommission() {
 		return commission;
 	}
 
-	public Integer getProfit() {
+	public BigDecimal getProfit() {
 		return profit;
 	}
 
-	public void setCommission(Integer commission) {
+	public void setCommission(BigDecimal commission) {
 		this.commission = commission;
 	}
 
-	public void setProfit(Integer profit) {
+	public void setProfit(BigDecimal profit) {
 		this.profit = profit;
 	}
 
 	public Merchant() {
 		super();
 
-		this.commission = 0;
-		this.profit = 0;
+		this.commission = new BigDecimal(0);
+		this.profit = new BigDecimal(0);
 	}
 
 	@Override
