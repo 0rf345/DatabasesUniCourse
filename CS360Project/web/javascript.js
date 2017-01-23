@@ -4,6 +4,22 @@
  * and open the template in the editor.
  */
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 function loginPOST() {
     if(document.getElementById("usern").checkValidity() === false) {
         alert("Please input username");
@@ -30,9 +46,26 @@ function loginPOST() {
             // Everything OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.authstatus === "authenticated") {
+                
+                var cltype = whatAmIPOST();
+                if(cltype === "company") {
+                    document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
+                    document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
+                }else if(cltype === "merchant") {
+                    // other page
+                    return;
+                }else if(cltype === "CCC") {
+                    // CCC specific page
+                    return;
+                }else if(cltype !== "individual"){
+                    alert("Something went terribly wrong.");
+                    return;
+                }
+                document.cookie = ("cltype="+cltype);
+                
                 window.location.href = "buyCap.html";
             }else if(jsonObj.authstatus === "already_authenticated"){
-                alert("You hace already loggen-in from another device and never logged-out.");
+                alert("You have already loggen-in from another device and never logged-out.");
                 loginPage();
             }else if(jsonObj.authstatus === "unauthorised") {
                 alert("Username - password combo was wrong, please try again.");
@@ -138,6 +171,101 @@ function registerPOST() {
             }else{
                 alert("Something went terribly wrong.");
                 registerPage();
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function whatAmIPOST() {
+    var object = new Object();
+    object.action = "userkind";
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                return jsonObj.client;
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function buyPOST() {
+    var object = new Object();
+    object.action = "buy";
+    object.client = getCookie("cltype");
+    if(object.client === "company") {
+        object.fname = getCookie("fname");
+        object.lname = getCookie("lname");
+    }
+    object.merchant = $("#merhant").val();
+    object.amount   = $("#amount").val();
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function buyPagePOST() {
+    buyPage();
+    var object = new Object();
+    object.action = "getmerchants";
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                var merchantsArr = jsonObj.merchants;
+                $("#grabMe").append("<p><select id='merchant'>");
+                for(var i = 0 ; merchantsArr.length; i++) {
+                    $("#grabMe").append("<option value='"+merchantsArr[i].id+"'>"+
+                            merchantsArr[i].fname + " " + merchantsArr[i].lname +
+                            "</option>");
+                }
+                $("#grabMe").append("</select></p>");
+                $("#grabMe").append("<p><label>Amount to pay to the merchant</label>");
+                $("#grabMe").append("<input id=\"amount\" type=\"number\" step=\"0.01\" value=\"0.01\" min=\"0.01\" />");
+                $("#grabMe").append("</p>");
+                $("#grabMe").append("<p><button class=\"button3\">Buy Now!</button></p>");
+            }else{
+                alert("Failure.");
+                return;
             }
         }
     };
@@ -273,10 +401,10 @@ function returnPagePOST() {
 
 function transactionsPOST() {
     var object = new Object();
-    object.action= "transactions";
+    object.action= "gettransactions";
     
     var request = JSON.stringify(object);
-    var url = "transactions";
+    var url = "transaction";
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
