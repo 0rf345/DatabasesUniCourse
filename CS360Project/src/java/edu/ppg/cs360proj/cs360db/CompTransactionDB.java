@@ -171,27 +171,32 @@ public class CompTransactionDB {
 
 	public static void genTable() throws SQLException {
 		String tableQuery =
-			"create table individual_transaction\n" +
+			"create table company_transaction\n" +
 			"(\n" +
 			"	id         int(8) not null auto_increment primary key,\n" +
-			"	indiv_id   int(6),\n" +
+			"	comp_id    int(6),\n" +
+			"	emp_id     int(8),\n" +
 			"	merch_id   int(6),\n" +
 			"	trsctdate  date not null,\n" +
 			"	amount     decimal(15,2) not null default 0,\n" +
 			"	ischarge   boolean not null default false,\n" +
-			"	constraint `fk_indivtrs_indiv_id`\n" +
-			"		foreign key (indiv_id) references individual (id)\n" +
+			"	constraint `fk_cmptrs_company_id`\n" +
+			"		foreign key (company_id) references company (id)\n" +
 			"		on update cascade,\n" +
-			"	constraint `fk_indivtrs_merch_id`\n" +
+			"	constraint `fk_cmptrs_employee_id`\n" +
+			"		foreign key (employee_id) references company_employee (id)\n" +
+			"		on update cascade,\n" +
+			"	constraint `fk_cmptrs_merch_id`\n" +
 			"		foreign key (merch_id) references merchant (id)\n" +
 			"		on update cascade\n" +
+			"\n" +
 			") engine = InnoDB;";
 
 		Connection con = DBCommon.getConnection();
 		Statement stmt = con.createStatement();
 
 		stmt.executeUpdate(tableQuery);
-		stmt.executeUpdate("alter table individual_transaction auto_increment = 10000000;");
+		stmt.executeUpdate("alter table company_transaction auto_increment = 20000000;");
 		
 		stmt.close();
 		con.close();
