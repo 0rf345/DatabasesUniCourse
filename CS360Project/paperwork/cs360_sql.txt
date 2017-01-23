@@ -77,15 +77,15 @@ WHERE id = @id;
 
 UPDATE individual
 SET currdebt = currdebt - @payment
-WHERE id = @id AS i AND i.currdebt - @payment > 0
+WHERE id = @id  AND currdebt - @payment > 0;
 
 UPDATE company
 SET currdebt = currdebt - @payment
-WHERE id = @id AS c AND c.currdebt - @payment > 0
+WHERE id = @id AND currdebt - @payment > 0;
 
 UPDATE merchant
 SET currdebt = currdebt - @payment
-WHERE id = @id AS m AND m.currdebt - @payment > 0
+WHERE id = @id AND currdebt - @payment > 0;
 
 
 --Customer or merchant can ask for transactions done at a specific chronological period
@@ -101,7 +101,7 @@ SELECT * FROM (
 	SELECT id, trsctdate, amount, ischarge
 	FROM company_transaction
 ) AS U
-WHERE @idtype = @id AND trsctdate BETWEEN '@fromdate'  AND '@todate' ORDER BY date DESC;
+WHERE @idtype = @id AND trsctdate BETWEEN '@fromdate'  AND '@todate' ORDER BY trsctdate DESC;
 
 --Depending on who does the search (company, individual or merchant) @idtype is different and has to respond to that, @id refers to the id of the person making the search
 
@@ -110,21 +110,21 @@ WHERE @idtype = @id AND trsctdate BETWEEN '@fromdate'  AND '@todate' ORDER BY da
 
 --Show good clients, all clients that don't have any debt towards CCC
 SELECT * FROM (
-	SELECT * FROM individual
+	SELECT id, usern, lname, currdebt FROM individual
 	UNION
-	SELECT * FROM company
+	SELECT id, usern, companyname, currdebt FROM company
 	UNION
-	SELECT * FROM merchant
+	SELECT id, usern, lname, currdebt FROM merchant
 ) AS U
 WHERE currdebt = 0
 
 --Show bad clients
 SELECT * FROM (
-	SELECT * FROM individual
+	SELECT id, usern, lname, currdebt FROM individual
 	UNION
-	SELECT * FROM company
+	SELECT id, usern, companyname, currdebt FROM company
 	UNION
-	SELECT * FROM merchant
+	SELECT id, usern, lname, currdebt FROM merchant
 ) AS U
 WHERE currdebt > 0
 ORDER BY currdebt ASC;
