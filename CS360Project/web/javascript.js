@@ -161,7 +161,7 @@ function loginPage() {
     window.location.href = "index.html";
 }
 
-function logout() {
+function logOutPOST() {
     var object = new Object();
     object.action= "logout";
     
