@@ -69,7 +69,7 @@ public class CompTransactionDB {
 			Statement stmt = con.createStatement();
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("select * from individual_transaction ")
+			insQuery.append("select * from company_transaction ")
 					.append(" where ")
 					.append(" id = ").append("'").append(trsctid).append("'")
 					.append(";");
@@ -102,7 +102,7 @@ public class CompTransactionDB {
 			Statement stmt = con.createStatement();
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("insert into individual_transaction ")
+			insQuery.append("insert into company_transaction ")
 					.append(" ( comp_id, emp_id, merch_id, trsctdate, amount, ischarge ) ")
 					.append(" VALUES (")
 					.append("'").append(ctr.getCompID()).append("',")
@@ -110,8 +110,9 @@ public class CompTransactionDB {
 					.append("'").append(ctr.getMerchID()).append("',")
 					.append("'").append(ctr.getTrsctDate()).append("',")
 					.append("'").append(ctr.getAmount()).append("',")
-					.append("'").append(ctr.isCharge()).append("'")
+					.append("'").append((ctr.isCharge() ? 1 : 0)).append("'")
 					.append(");");
+			Logger.getLogger(CompTransactionDB.class.getName()).log(Level.SEVERE, insQuery.toString());
 			stmt.executeUpdate(insQuery.toString());
 			System.out.println("#DB: The member was successfully added to the database.");
 
@@ -129,14 +130,14 @@ public class CompTransactionDB {
 			Statement stmt = con.createStatement();
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("update individual_transaction")
+			insQuery.append("update company_transaction")
 					.append(" set ")
 					.append(" comp_id = ").append("'").append(ctr.getCompID()).append("',")
 					.append(" emp_id = ").append("'").append(ctr.getEmpID()).append("',")
 					.append(" merch_id = ").append("'").append(ctr.getMerchID()).append("',")
 					.append(" trsctdate = ").append("'").append(ctr.getTrsctDate()).append("',")
 					.append(" amount = ").append("'").append(ctr.getAmount()).append("',")
-					.append(" ischarge = ").append("'").append(ctr.isCharge()).append("',")
+					.append(" ischarge = ").append("'").append((ctr.isCharge() ? 1 : 0)).append("'")
 					.append(" where id = ").append("'").append(ctr.getTrsctID()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());
@@ -156,7 +157,7 @@ public class CompTransactionDB {
 			Statement stmt = con.createStatement();
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("delete from individual_transaction")
+			insQuery.append("delete from company_transaction")
 					.append(" where ")
 					.append(" id = ").append("'").append(trsctID).append("'")
 					.append(";");

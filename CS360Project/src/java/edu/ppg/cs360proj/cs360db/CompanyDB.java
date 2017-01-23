@@ -190,9 +190,10 @@ public class CompanyDB extends ClientDB {
 					.append(" creditlmt = ").append("'").append(cmp.getCreditLimit()).append("',")
 					.append(" currdebt = ").append("'").append(cmp.getCurrentDebt()).append("',")
 					.append(" availcredit = ").append("'").append(cmp.getAvailableCredit()).append("',")
-					.append(" companyname = ").append("'").append(cmp.getCompanyName()).append("',")
+					.append(" companyname = ").append("'").append(cmp.getCompanyName()).append("'")
 					.append(" where usern = ").append("'").append(cmp.getClientUName()).append("'")
 					.append(";");
+			Logger.getLogger(CompanyDB.class.getName()).log(Level.SEVERE, insQuery.toString());
 			stmt.executeUpdate(insQuery.toString());
 			System.out.println("#DB: The member was successfully updated in the database.");
 			// TODO: Add relevant code for updating employee tables

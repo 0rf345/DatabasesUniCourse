@@ -140,7 +140,7 @@ public class IndividualDB extends ClientDB {
 					.append(" currdebt = ").append("'").append(indiv.getCurrentDebt()).append("',")
 					.append(" availcredit = ").append("'").append(indiv.getAvailableCredit()).append("',")
 					.append(" fname = ").append("'").append(indiv.getfName()).append("',")
-					.append(" lname = ").append("'").append(indiv.getlName()).append("',")
+					.append(" lname = ").append("'").append(indiv.getlName()).append("'")
 					.append(" where usern = ").append("'").append(indiv.getClientUName()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());

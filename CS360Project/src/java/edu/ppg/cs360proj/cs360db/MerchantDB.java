@@ -105,6 +105,45 @@ public class MerchantDB extends ClientDB {
 		return merch;
 	}
 	
+	public static Merchant getMerchantByID(String merchID) {
+		Merchant merch = new Merchant();
+		
+		try {
+			Connection con = DBCommon.getConnection();
+			Statement stmt = con.createStatement();
+
+			StringBuilder insQuery = new StringBuilder();
+			insQuery.append("select * from merchant ")
+					.append(" where ")
+					.append(" id = ").append("'").append(merchID).append("'")
+					.append(";");
+			stmt.execute(insQuery.toString());
+
+			ResultSet res = stmt.getResultSet();
+			if (res.next() == true) {
+				merch.setAccountID(res.getString("id"));
+				merch.setClientUName(res.getString("usern"));
+				merch.setClientPass(res.getString("userp"));
+				merch.setExpDate(res.getString("expdate"));
+				merch.setCreditLimit(BigDecimal.valueOf(res.getDouble("creditlmt")));
+				merch.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
+				merch.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
+				merch.setfName(res.getString("fname"));
+				merch.setlName(res.getString("lname"));
+				merch.setCommission(BigDecimal.valueOf(res.getDouble("commission")));
+				merch.setProfit(BigDecimal.valueOf(res.getDouble("profit")));
+			}
+
+			stmt.close();
+			con.close();
+		} catch (SQLException ex) {
+			// Log exception
+			Logger.getLogger(MerchantDB.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		return merch;
+	}
+	
 	public static void addMerchant(Merchant merch) {
 		try {
 			Connection con = DBCommon.getConnection();
@@ -152,7 +191,7 @@ public class MerchantDB extends ClientDB {
 					.append(" fname = ").append("'").append(merch.getfName()).append("',")
 					.append(" lname = ").append("'").append(merch.getlName()).append("',")
 					.append(" commission = ").append("'").append(merch.getCommission()).append("',")
-					.append(" profit = ").append("'").append(merch.getProfit()).append("',")
+					.append(" profit = ").append("'").append(merch.getProfit()).append("'")
 					.append(" where usern = ").append("'").append(merch.getClientUName()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());

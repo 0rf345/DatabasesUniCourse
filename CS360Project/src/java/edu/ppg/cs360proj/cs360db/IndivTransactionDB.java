@@ -107,7 +107,7 @@ public class IndivTransactionDB {
 					.append("'").append(itr.getMerchID()).append("',")
 					.append("'").append(itr.getTrsctDate()).append("',")
 					.append("'").append(itr.getAmount()).append("',")
-					.append("'").append(itr.isCharge()).append("'")
+					.append("'").append((itr.isCharge() ? 1 : 0)).append("'")
 					.append(");");
 			stmt.executeUpdate(insQuery.toString());
 			System.out.println("#DB: The member was successfully added to the database.");
@@ -132,7 +132,7 @@ public class IndivTransactionDB {
 					.append(" merch_id = ").append("'").append(itr.getMerchID()).append("',")
 					.append(" trsctdate = ").append("'").append(itr.getTrsctDate()).append("',")
 					.append(" amount = ").append("'").append(itr.getAmount()).append("',")
-					.append(" ischarge = ").append("'").append(itr.isCharge()).append("',")
+					.append(" ischarge = ").append("'").append((itr.isCharge() ? 1 : 0)).append("'")
 					.append(" where id = ").append("'").append(itr.getTrsctID()).append("'")
 					.append(";");
 			stmt.executeUpdate(insQuery.toString());
