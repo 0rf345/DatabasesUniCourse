@@ -158,7 +158,7 @@ public class CompTransactionDB {
 			StringBuilder insQuery = new StringBuilder();
 			insQuery.append("delete from individual_transaction")
 					.append(" where ")
-					.append(" usern = ").append("'").append(trsctID).append("'")
+					.append(" id = ").append("'").append(trsctID).append("'")
 					.append(";");
 
 			stmt.executeUpdate(insQuery.toString());
