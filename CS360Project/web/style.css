@@ -265,6 +265,11 @@ FOOTER
     cursor: pointer;	
 }
 
+#creditD {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 input:invalid {
     border: 2px solid red!important;
 }
