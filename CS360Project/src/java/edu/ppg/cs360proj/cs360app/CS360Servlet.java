@@ -7,6 +7,9 @@
  */
 package edu.ppg.cs360proj.cs360app;
 
+import edu.ppg.cs360proj.cs360db.CompanyDB;
+import edu.ppg.cs360proj.cs360db.model.Company;
+import edu.ppg.cs360proj.cs360db.model.Employee;
 import edu.ppg.cs360proj.cs360db.MerchantDB;
 import edu.ppg.cs360proj.cs360db.model.Merchant;
 
@@ -106,6 +109,24 @@ class MerchantInfo {
 	}
 }
 
+class GetEmployeesResponse extends CS360Response {
+	@SerializedName("employees")
+	ArrayList<EmployeeInfo> employees;
+
+	public void addEmployee(EmployeeInfo emp_info) {
+		employees.add(emp_info);
+	}
+	
+	public GetEmployeesResponse() {
+		this.employees = new ArrayList<>();
+	}
+
+	@Override
+	public String toString() {
+		return "GetEmployeesResponse{" + "employees=" + employees + '}';
+	}
+}
+
 class GetUserKindResponse extends CS360Response {
 	@SerializedName("client")
 	private String ukind;
@@ -185,6 +206,33 @@ public class CS360Servlet extends HttpServlet {
 				css.setReason("");
 				strGMRs = gson.toJson(gmrs, GetMerchantsResponse.class);
 				out.print(strGMRs);
+			} else if(csq.getAction().equals("getemployees")) {
+				String usern = (String) session.getAttribute("usern");
+				String userkind = (String) session.getAttribute("userk");
+				if(!userkind.equals("company")) {
+					css.setStatus("failure");
+					css.setReason("not_company");
+					strCSs = gson.toJson(css);
+					out.print(strCSs);
+					out.close();
+					return;
+				}
+				
+				GetEmployeesResponse gers = new GetEmployeesResponse();
+				String strGERs = "";
+
+				for(Employee emp : CompanyDB.getCompany(usern).getEmployees()) {
+					EmployeeInfo emp_info = new EmployeeInfo();
+					emp_info.setID(emp.getEmployeeID());
+					emp_info.setfName(emp.getfName());
+					emp_info.setlName(emp.getlName());
+					gers.addEmployee(emp_info);
+				}
+				
+				gers.setStatus("success");
+				gers.setReason("");
+				strGERs = gson.toJson(gers, GetEmployeesResponse.class);
+				out.print(strGERs);
 			} else if(csq.getAction().equals("userkind")) {
 				GetUserKindResponse guks = new GetUserKindResponse();
 				String strGUKs = "";
@@ -199,7 +247,7 @@ public class CS360Servlet extends HttpServlet {
 			
 			out.close();
 		} catch (IOException ex) {
-			Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(CS360Servlet.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
 	}
