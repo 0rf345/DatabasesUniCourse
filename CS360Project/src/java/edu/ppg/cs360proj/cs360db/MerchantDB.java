@@ -49,7 +49,7 @@ public class MerchantDB extends ClientDB {
 				merch.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
 				merch.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				merch.setfName(res.getString("fname"));
-				merch.setlName(res.getString("fname"));
+				merch.setlName(res.getString("lname"));
 				merch.setCommission(BigDecimal.valueOf(res.getDouble("commission")));
 				merch.setProfit(BigDecimal.valueOf(res.getDouble("profit")));
 				merchs.add(merch);
@@ -90,7 +90,7 @@ public class MerchantDB extends ClientDB {
 				merch.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
 				merch.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				merch.setfName(res.getString("fname"));
-				merch.setlName(res.getString("fname"));
+				merch.setlName(res.getString("lname"));
 				merch.setCommission(BigDecimal.valueOf(res.getDouble("commission")));
 				merch.setProfit(BigDecimal.valueOf(res.getDouble("profit")));
 			}

@@ -45,7 +45,7 @@ public class IndividualDB extends ClientDB {
 				indiv.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
 				indiv.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				indiv.setfName(res.getString("fname"));
-				indiv.setlName(res.getString("fname"));
+				indiv.setlName(res.getString("lname"));
 				indivs.add(indiv);
 			}
 
@@ -84,7 +84,7 @@ public class IndividualDB extends ClientDB {
 				indiv.setCurrentDebt(BigDecimal.valueOf(res.getDouble("currdebt")));
 				indiv.setAvailableCredit(BigDecimal.valueOf(res.getDouble("availcredit")));
 				indiv.setfName(res.getString("fname"));
-				indiv.setlName(res.getString("fname"));
+				indiv.setlName(res.getString("lname"));
 			}
 
 			stmt.close();
