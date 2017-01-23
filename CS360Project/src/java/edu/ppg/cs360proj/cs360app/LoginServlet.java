@@ -7,6 +7,11 @@
  */
 package edu.ppg.cs360proj.cs360app;
 
+import edu.ppg.cs360proj.cs360db.IndividualDB;
+import edu.ppg.cs360proj.cs360db.MerchantDB;
+import edu.ppg.cs360proj.cs360db.CompanyDB;
+import edu.ppg.cs360proj.cs360db.model.Client;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
@@ -29,25 +34,35 @@ class LoginRequest {
 	@SerializedName("userp")
 	private String userp;
 
-	public String getUserName() {
+	public String getUName() {
 		return usern;
 	}
 
-	public String getUserPass() {
+	public String getUPass() {
 		return userp;
 	}
-
-	public void setUserName(String usern) {
-		this.usern = usern;
+	
+	@Override
+	public String toString() {
+		return "LoginRequest{" + "usern=" + usern + ", userp=" + userp + '}';
 	}
+}
 
-	public void setUserPass(String userp) {
-		this.userp = userp;
+class LoginResponse {
+	@SerializedName("authstatus")
+	private String authstatus;
+
+	public void setAuthStatus(String authstatus) {
+		this.authstatus = authstatus;
 	}
-
-	public LoginRequest(String usern, String userp) {
-		this.usern = usern;
-		this.userp = userp;
+	
+	public LoginResponse() {
+		this.authstatus = "";
+	}
+	
+	@Override
+	public String toString() {
+		return "LoginResponse{" + "authstatus=" + authstatus + '}';
 	}
 }
 
@@ -66,31 +81,86 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
-	throws ServletException, IOException {
-		res.setContentType("text/html;charset=UTF-8");
+		throws ServletException, IOException {
+		res.setContentType("application/json;charset=UTF-8");
+		Gson gson = new Gson();
 		
 		StringBuffer jb = new StringBuffer();
 		String line = null;
-		try {
-			BufferedReader reader = req.getReader();
+		try(BufferedReader reader = req.getReader()) {
 			while ((line = reader.readLine()) != null)
 				jb.append(line);
 		} catch (IOException ex) {
-			Logger.getLogger("cs360app.LoginServlet").log(Level.SEVERE, null, ex);
+			Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
-		Gson gson = new Gson();
 		LoginRequest lq = gson.fromJson(jb.toString(), LoginRequest.class);
 
-		final PrintWriter out = res.getWriter();
-		if(lq.getUserName().equals("cs360") && lq.getUserPass().equals("cs360")) {
-			HttpSession session = req.getSession();
-			session.setAttribute("usern", lq.getUserName());
-			out.print("authenticated");
-		} else {
-			out.print("unauthorized");
-		}
+		try (PrintWriter out = res.getWriter()) {
+			Client clnt;
+			HttpSession session;
+			LoginResponse ls = new LoginResponse();
+			ls.setAuthStatus("unauthorised");
+			String strLs = "";
+			
+			session = req.getSession(false);
+			if(session != null) {
+				ls.setAuthStatus("already_authenticated");
+				strLs = gson.toJson(ls);
+				out.print(strLs);
+				out.close();
+				return;
+			}
+			
+			clnt = IndividualDB.getIndividual(lq.getUName());
+			if(clnt.getClientUName().equals(lq.getUName())) {
+				if(clnt.getClientPass().equals(lq.getUPass())) {
+					session = req.getSession();
+					session.setAttribute("usern", lq.getUName());
+					session.setAttribute("userk", "indiv");
+					ls.setAuthStatus("authenticated");
+					strLs = gson.toJson(ls);
+					out.print(strLs);
+					out.close();
+					return;
+					
+				}
+			}
+			
+			clnt = MerchantDB.getMerchant(lq.getUName());
+			if(clnt.getClientUName().equals(lq.getUName())) {
+				if(clnt.getClientPass().equals(lq.getUPass())) {
+					session = req.getSession();
+					session.setAttribute("usern", lq.getUName());
+					session.setAttribute("userk", "merch");
+					ls.setAuthStatus("authenticated");
+					strLs = gson.toJson(ls);
+					out.print(strLs);
+					out.close();
+					return;
+				}
+			}
+			
+			clnt = CompanyDB.getCompany(lq.getUName());
+			if(clnt.getClientUName().equals(lq.getUName())) {
+				if(clnt.getClientPass().equals(lq.getUPass())) {
+					session = req.getSession();
+					session.setAttribute("usern", lq.getUName());
+					session.setAttribute("userk", "comp");
+					ls.setAuthStatus("authenticated");
+					strLs = gson.toJson(ls);
+					out.print(strLs);
+					out.close();
+					return;
+				}
+			}
 
-		out.close();
+			strLs = gson.toJson(ls);
+			out.print(strLs);
+			out.close();
+		} catch (IOException ex) {
+			Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
 	}
 }
