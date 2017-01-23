@@ -146,6 +146,33 @@ function registerPOST() {
     xhr.send(request);
 }
 
+
+function buyPagePOST() {
+    buyPage();
+    var object = new Object();
+    object.action = "getmerchants";
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
 // Redirections
 
 function buyPage() {
@@ -273,10 +300,10 @@ function returnPagePOST() {
 
 function transactionsPOST() {
     var object = new Object();
-    object.action= "transactions";
+    object.action= "gettransactions";
     
     var request = JSON.stringify(object);
-    var url = "transactions";
+    var url = "transaction";
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
