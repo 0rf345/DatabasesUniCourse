@@ -71,9 +71,8 @@ function landing() {
     setTimeout(function(){
         var cltype = getCookie("cltype");
         if(cltype === "company") {
-            document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
-            document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
             indComPage();
+            return;
         }else if(cltype === "merchant") {
             // other page
             return;
@@ -84,6 +83,7 @@ function landing() {
             indComPage();
             return;
         }else{
+            alert(cltype);
             alert("Shouldn't be here.");
             return;
         }    
@@ -328,7 +328,9 @@ function buyPagePOST() {
                 
                 if(getCookie("cltype") === "company") {
                     getEmployeesPOST();
-                    $("#grabMe").append(str);
+                    setTimeout(function(){
+                        $("#grabMe").append(str);    
+                    }, 100); // If out of order, get the waiting time higher
                 }else{
                     $("#grabMe").html(str);
                 }
@@ -396,8 +398,6 @@ function logOutPOST() {
     
     xhr.setRequestHeader('ContentType','application/json');
     xhr.send(request);
-    document.cookie = "fname=;";
-    document.cookie = "lname=;";
     document.cookie = "cltype=;";
 }
 
