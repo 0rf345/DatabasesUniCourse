@@ -233,7 +233,7 @@ function buyPOST() {
         }
         object.emp_id = $("#employee").val();
     }
-    object.merch_id = $("#merhant").val();
+    object.merch_id = $("#merchant").val();
     object.amount   = $("#amount").val();
     
     var request  = JSON.stringify(object);
