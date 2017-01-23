@@ -51,10 +51,11 @@ public class CompanyDB extends ClientDB {
 				insQuery.append("select * from company_employee")
 						.append(" where ")
 						.append(" company_id = '").append(cmp.getAccountID()).append("'");
+				stmt.execute(insQuery.toString());
 				res = stmt.getResultSet();
 				while(res.next() == true) {
 					Employee emp = new Employee();
-					emp.setEmployeeID(res.getString("empid"));
+					emp.setEmployeeID(res.getString("id"));
 					emp.setfName(res.getString("fname"));
 					emp.setlName(res.getString("lname"));
 					cmp.addEmployee(emp);
@@ -102,10 +103,11 @@ public class CompanyDB extends ClientDB {
 				insQuery.append("select * from company_employee")
 						.append(" where ")
 						.append(" company_id = '").append(cmp.getAccountID()).append("'");
+				stmt.execute(insQuery.toString());
 				res = stmt.getResultSet();
 				while(res.next() == true) {
 					Employee emp = new Employee();
-					emp.setEmployeeID(res.getString("empid"));
+					emp.setEmployeeID(res.getString("id"));
 					emp.setfName(res.getString("fname"));
 					emp.setlName(res.getString("lname"));
 					cmp.addEmployee(emp);
