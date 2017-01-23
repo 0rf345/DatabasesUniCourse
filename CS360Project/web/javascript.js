@@ -30,6 +30,16 @@ function loginPOST() {
             // Everything OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.authstatus === "authenticated") {
+                /**
+                var cltype = whatAmIPOST();
+                if(cltype === "company") {
+                    // get employy name
+                }else if(cltype === "merchant") {
+                    // other page
+                }else if(cltype === "CCC") {
+                    // CCC specific page
+                }
+                */
                 window.location.href = "buyCap.html";
             }else if(jsonObj.authstatus === "already_authenticated"){
                 alert("You hace already loggen-in from another device and never logged-out.");
@@ -146,6 +156,31 @@ function registerPOST() {
     xhr.send(request);
 }
 
+function whatAmIPOST() {
+    var object = new Object();
+    object.action = "userkind";
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                return jsonObj.client;
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
 
 function buyPagePOST() {
     buyPage();
