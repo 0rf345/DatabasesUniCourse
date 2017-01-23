@@ -81,7 +81,7 @@ public class CompanyDB extends ClientDB {
 			Statement stmt = con.createStatement();
 
 			StringBuilder insQuery = new StringBuilder();
-			insQuery.append("select * from Company ")
+			insQuery.append("select * from company ")
 					.append(" where ")
 					.append(" usern = ").append("'").append(clientUName).append("'")
 					.append(";");
