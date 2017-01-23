@@ -70,7 +70,6 @@ function landing() {
     whatAmIPOST();
     setTimeout(function(){
         var cltype = getCookie("cltype");
-        document.cookie = ("cltype="+cltype);
         if(cltype === "company") {
             document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
             document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
@@ -211,6 +210,7 @@ function whatAmIPOST() {
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.status === "success") {
                 document.cookie = "cltype="+jsonObj.client;
+                return;
             }else{
                 alert("Failure.");
                 return;
@@ -234,7 +234,7 @@ function buyPOST() {
     object.amount   = $("#amount").val();
     
     var request  = JSON.stringify(object);
-    var url = "cs360";
+    var url = "transaction";
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
@@ -253,6 +253,8 @@ function buyPOST() {
     xhr.setRequestHeader('ContentType','application/json');
     xhr.send(request);
 }
+
+// Todo create getemployees like get merchants
 
 function buyPagePOST() {
     var object = new Object();
@@ -292,6 +294,12 @@ function buyPagePOST() {
     xhr.send(request);
 }
 
+function cccCheck() {
+    if(getCookie("cltype") !== "CCC") {
+        window.location.href = "https://www.youtube.com/watch?v=uO9bIx1C4Fs";
+    }
+}
+
 // Redirections
 
 function indComPage() {
@@ -299,7 +307,7 @@ function indComPage() {
 }
 
 function cccPage() {
-    window.location.href = "ccc.html";
+    window.location.href = "CCC.html";
 }
 
 function buyPage() {
@@ -338,6 +346,9 @@ function logOutPOST() {
     
     xhr.setRequestHeader('ContentType','application/json');
     xhr.send(request);
+    document.cookie = "fname=;";
+    document.cookie = "lname=;";
+    document.cookie = "cltype=;";
 }
 
 /**
