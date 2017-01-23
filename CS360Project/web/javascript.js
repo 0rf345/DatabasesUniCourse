@@ -53,9 +53,11 @@ function loginPOST() {
                     document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
                 }else if(cltype === "merchant") {
                     // other page
+                    return;
                 }else if(cltype === "CCC") {
                     // CCC specific page
-                }else{
+                    return;
+                }else if(cltype !== "individual"){
                     alert("Something went terribly wrong.");
                     return;
                 }
@@ -211,6 +213,8 @@ function buyPOST() {
         object.fname = getCookie("fname");
         object.lname = getCookie("lname");
     }
+    object.merchant = $("#merhant").val();
+    object.amount   = $("#amount").val();
     
     var request  = JSON.stringify(object);
     var url = "cs360";
@@ -247,7 +251,18 @@ function buyPagePOST() {
             // Everything went OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.status === "success") {
-                
+                var merchantsArr = jsonObj.merchants;
+                $("#grabMe").append("<p><select id='merchant'>");
+                for(var i = 0 ; merchantsArr.length; i++) {
+                    $("#grabMe").append("<option value='"+merchantsArr[i].id+"'>"+
+                            merchantsArr[i].fname + " " + merchantsArr[i].lname +
+                            "</option>");
+                }
+                $("#grabMe").append("</select></p>");
+                $("#grabMe").append("<p><label>Amount to pay to the merchant</label>");
+                $("#grabMe").append("<input id=\"amount\" type=\"number\" step=\"0.01\" value=\"0.01\" min=\"0.01\" />");
+                $("#grabMe").append("</p>");
+                $("#grabMe").append("<p><button class=\"button3\">Buy Now!</button></p>");
             }else{
                 alert("Failure.");
                 return;
