@@ -82,13 +82,13 @@ alter table individual_transaction auto_increment = 10000000;
 -- Company Transaction Table
 create table company_transaction
 (
-	id          int(8) not null auto_increment primary key,
-	company_id  int(6),
-	employee_id int(8),
-	merch_id    int(6),
-	trsctdate   date not null,
-	amount      decimal(15,2) not null default 0,
-	ischarge    boolean not null default false,
+	id         int(8) not null auto_increment primary key,
+	comp_id    int(6),
+	emp_id     int(8),
+	merch_id   int(6),
+	trsctdate  date not null,
+	amount     decimal(15,2) not null default 0,
+	ischarge   boolean not null default false,
 	constraint `fk_cmptrs_company_id`
 		foreign key (company_id) references company (id)
 		on update cascade,
