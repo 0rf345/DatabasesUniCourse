@@ -46,7 +46,7 @@ function loginPOST() {
             // Everything OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.authstatus === "authenticated") {
-                window.location.href = "landing.html";
+                landing();
             }else if(jsonObj.authstatus === "already_authenticated"){
                 alert("You have already loggen-in from another device and never logged-out.");
                 loginPage();
@@ -57,6 +57,7 @@ function loginPOST() {
                 alert("Something went terribly wrong.");
                 loginPage();
             }
+            return;
         }
     };
     
@@ -65,24 +66,29 @@ function loginPOST() {
 }
 
 function landing() {
-    var cltype = whatAmIPOST();
-    document.cookie = ("cltype="+cltype);
-    if(cltype === "company") {
-        document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
-        document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
-    }else if(cltype === "merchant") {
-        // other page
-        return;
-    }else if(cltype === "CCC") {
-        // CCC specific page
-        return;
-    }else if(cltype === "individual"){
-        window.location.href = "buyCap.html";
-        return;
-    }else{
-        alert("Shouldn't be here.");
-        return;
-    }       
+    
+    whatAmIPOST();
+    setTimeout(function(){
+        var cltype = getCookie("cltype");
+        document.cookie = ("cltype="+cltype);
+        if(cltype === "company") {
+            document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
+            document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
+        }else if(cltype === "merchant") {
+            // other page
+            return;
+        }else if(cltype === "CCC") {
+            // CCC specific page
+            return;
+        }else if(cltype === "individual"){
+            window.location.href = "buyCap.html";
+            return;
+        }else{
+            alert("Shouldn't be here.");
+            return;
+        }    
+    }, 100); // If out of order, get the waiting time higher
+       
 }
 
 function registerPOST() {
@@ -197,7 +203,7 @@ function whatAmIPOST() {
             // Everything went OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.status === "success") {
-                return jsonObj.client;
+                document.cookie = "cltype="+jsonObj.client;
             }else{
                 alert("Failure.");
                 return;
