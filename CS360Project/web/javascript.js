@@ -227,10 +227,13 @@ function buyPOST() {
     object.action = "buy";
     object.client = getCookie("cltype");
     if(object.client === "company") {
-        object.fname = getCookie("fname");
-        object.lname = getCookie("lname");
+        if(document.getElementById("employee").checkValidity() === false) {
+            alert("You did not choose which employee you are.");
+            return;
+        }
+        object.emp_id = $("#employee").val();
     }
-    object.merchant = $("#merhant").val();
+    object.merch_id = $("#merhant").val();
     object.amount   = $("#amount").val();
     
     var request  = JSON.stringify(object);
@@ -254,7 +257,46 @@ function buyPOST() {
     xhr.send(request);
 }
 
-// Todo create getemployees like get merchants
+function getEmployeesPOST() {
+    
+    if(getCookie("cltype") !== "company") {
+        alert("You are being naughty");
+        logOutPOST();
+        return;
+    }
+    
+    var object = new Object();
+    object.action = "getemployees";
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            var a = jsonObj.employees;
+            if(jsonObj.status === "success") {
+                var str = "";
+                str += ("<select id='employee' required>");
+                for(var i = 0 ; i < a.length; i++) {
+                    str += ("<option value='"+a[i].id+"'>ID: #"+ a[i].id + " " +
+                            a[i].fname + " " + a[i].lname +
+                            "</option>");
+                }
+                str += ("</select>");
+                $("#grabMe").html(str);
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
 
 function buyPagePOST() {
     var object = new Object();
@@ -267,6 +309,7 @@ function buyPagePOST() {
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything went OK
+            
             var jsonObj = JSON.parse(xhr.responseText);
             var a = jsonObj.merchants;
             if(jsonObj.status === "success") {
@@ -282,7 +325,14 @@ function buyPagePOST() {
                 str += ("<input id=\"amount\" type=\"number\" step=\"0.01\" value=\"0.01\" min=\"0.01\" />");
                 str += ("</p>");
                 str += ("<p><button class=\"button3\" onclick=\"buyPOST()\">Buy Now!</button></p>");
-                $("#grabMe").html(str);
+                
+                if(getCookie("cltype") === "company") {
+                    getEmployeesPOST();
+                    $("#grabMe").append(str);
+                }else{
+                    $("#grabMe").html(str);
+                }
+                
             }else{
                 alert("Failure.");
                 return;
