@@ -95,11 +95,17 @@ class RegisterRequest {
 }
 
 class EmployeeInfo {
+	@SerializedName("id")
+	private String id;
 	@SerializedName("first")
 	private String fname;
 	@SerializedName("last")
 	private String lname;
 
+	public String getID() {
+		return id;
+	}
+	
 	public String getfName() {
 		return fname;
 	}
@@ -107,10 +113,22 @@ class EmployeeInfo {
 	public String getlName() {
 		return lname;
 	}
-	
+
+	public void setID(String id) {
+		this.id = id;
+	}
+
+	public void setfName(String fname) {
+		this.fname = fname;
+	}
+
+	public void setlName(String lname) {
+		this.lname = lname;
+	}
+
 	@Override
 	public String toString() {
-		return "EmployeeInfo{" + "fname=" + fname + ", lname=" + lname + '}';
+		return "EmployeeInfo{" + "id=" + id + ", fname=" + fname + ", lname=" + lname + '}';
 	}
 }
 

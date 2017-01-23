@@ -21,6 +21,13 @@ public class Company extends Client {
 		return employees;
 	}
 
+	public Employee getEmployee(String emp_id) {
+		for(Employee emp : this.employees) {
+			if(emp.getEmployeeID().equals(emp_id)) return emp;
+		}
+		return null;
+	}
+
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
