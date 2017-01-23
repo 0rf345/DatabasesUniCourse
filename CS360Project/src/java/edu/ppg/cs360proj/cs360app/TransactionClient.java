@@ -48,7 +48,7 @@ public class TransactionClient {
 			trsct.setIsCharge(true);
 			
 			indiv.setAvailableCredit(indiv.getAvailableCredit().subtract(amount));
-			indiv.setCurrentDebt(indiv.getAvailableCredit().add(amount));
+			indiv.setCurrentDebt(indiv.getCurrentDebt().add(amount));
 			
 			merch.setAvailableCredit(merch.getAvailableCredit().add(amount));
 			merch.setCurrentDebt(merch.getCurrentDebt().add(percentage(amount,merch.getCommission())));
@@ -67,6 +67,7 @@ public class TransactionClient {
 		if(comp.getAvailableCredit().compareTo(amount) >= 0) {
 			CompTransaction trsct = new CompTransaction();
 			trsct.setCompID(comp.getAccountID());
+			trsct.setEmpID(emp.getEmployeeID());
 			trsct.setMerchID(merch.getAccountID());
 			Calendar cal = Calendar.getInstance();
 			Date date = cal.getTime();
@@ -77,7 +78,7 @@ public class TransactionClient {
 			trsct.setIsCharge(true);
 			
 			comp.setAvailableCredit(comp.getAvailableCredit().subtract(amount));
-			comp.setCurrentDebt(comp.getAvailableCredit().add(amount));
+			comp.setCurrentDebt(comp.getCurrentDebt().add(amount));
 			
 			merch.setAvailableCredit(merch.getAvailableCredit().add(amount));
 			merch.setCurrentDebt(merch.getCurrentDebt().add(percentage(amount,merch.getCommission())));
@@ -98,7 +99,7 @@ public class TransactionClient {
 			itrs.setIsCharge(false);
 			
 			indiv.setAvailableCredit(indiv.getAvailableCredit().add(itrs.getAmount()));
-			indiv.setCurrentDebt(indiv.getAvailableCredit().subtract(itrs.getAmount()));
+			indiv.setCurrentDebt(indiv.getCurrentDebt().subtract(itrs.getAmount()));
 			
 			merch.setAvailableCredit(merch.getAvailableCredit().subtract(itrs.getAmount()));
 			merch.setCurrentDebt(merch.getCurrentDebt().subtract(percentage(itrs.getAmount(),merch.getCommission())));

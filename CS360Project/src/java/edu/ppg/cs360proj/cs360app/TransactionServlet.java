@@ -145,7 +145,7 @@ public class TransactionServlet extends HttpServlet {
 			if(userkind.equals("individual")) {
 				TransactionRequest trq = gson.fromJson(jb.toString(), TransactionRequest.class);
 				Individual indiv = IndividualDB.getIndividual(usern);
-				Merchant merch = MerchantDB.getMerchant(trq.getMerchID());
+				Merchant merch = MerchantDB.getMerchantByID(trq.getMerchID());
 				
 				if(trq.getAction().equals("buy")) {
 					ret = TransactionClient.individualBuy(indiv, merch, BigDecimal.valueOf(Double.parseDouble(trq.getAmount())));
@@ -158,14 +158,12 @@ public class TransactionServlet extends HttpServlet {
 					}
 				} else if(trq.getAction().equals("return")) {
 					
-				} else {
-					
 				}
 				
 			} if(userkind.equals("company")) {
 				CompTransactionRequest ctrq = gson.fromJson(jb.toString(), CompTransactionRequest.class);
 				Company comp = CompanyDB.getCompany(usern);
-				Merchant merch = MerchantDB.getMerchant(ctrq.getMerchID());
+				Merchant merch = MerchantDB.getMerchantByID(ctrq.getMerchID());
 				Employee emp = comp.getEmployee(ctrq.getEmpID());
 				
 				if(ctrq.getAction().equals("buy")) {
