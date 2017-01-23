@@ -25,7 +25,7 @@ and open the template in the editor.
                 <span>Please input your credentials to register.</span>
 		</div>
 	
-		<div class="content">
+		<div id="content" class="content">
 		<input id="usern" type="text" class="input" placeholder="Username" required 
                        pattern='.{8,}' required title='8 or more latin characters' />
                 <input id="userp" type="password" class="input" placeholder="Password" required 
@@ -33,17 +33,31 @@ and open the template in the editor.
                        title="6-10 characters, must contain 1 latin character, a number and a special symbol"/>
                 <input id="first" type="text" class="input" placeholder="First name" required />
                 <input id="last" type="text" class="input" placeholder="Last name" required />
+                
+                
                 <input id="name" type="text" class="input" placeholder="Name of company" required hidden />
+                
+                <div id="creditD">
+                    <label>Credit Limit</label>
+                    <input id="credit" type="number" min="50" max="5000" value="500" step="50" required />
+                </div>
                 
                 <p><input type="radio" name="accountType" value="individual" /> Individual</p>
                 <p><input type="radio" name="accountType" value="merchant" /> Merchant</p>
                 <p><input type="radio" name="accountType" value="company" /> Company</p>
+                
+                
+                
                 <div id="companyStuff" hidden>
                     <p><label>Number of employees to use your card</label>
                         <input id="howMany" type="number" min="1" max="255" value="0" required />
                     </p>
                     <div id="namesss"></div>
                 </div>
+                
+                
+                
+                
                 <script type="text/javascript">
                     $('input:radio[name="accountType"]').change(
                         function(){
@@ -51,11 +65,19 @@ and open the template in the editor.
                                 $("#first").hide();
                                 $("#last").hide();
                                 $("#name").show();
+                                $("#creditD").show();
                                 $("#companyStuff").show();
+                            }else if($('input[name="accountType"]:checked').val() === 'merchant'){
+                                $("#name").hide();
+                                $("#first").show();
+                                $("#last").show();
+                                $("#creditD").hide();
+                                $("#companyStuff").hide();
                             }else{
                                 $("#name").hide();
                                 $("#first").show();
                                 $("#last").show();
+                                $("#creditD").show();
                                 $("#companyStuff").hide();
                             }
                         }

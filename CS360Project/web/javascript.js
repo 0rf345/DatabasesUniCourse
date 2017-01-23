@@ -4,6 +4,22 @@
  * and open the template in the editor.
  */
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 function loginPOST() {
     if(document.getElementById("usern").checkValidity() === false) {
         alert("Please input username");
@@ -28,18 +44,51 @@ function loginPOST() {
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
-            if(xhr.responseText === "authenticated") {
-                alert("authorized");
-                $("body").html("LOGGED IN");
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.authstatus === "authenticated") {
+                landing();
+            }else if(jsonObj.authstatus === "already_authenticated"){
+                alert("You have already loggen-in from another device and never logged-out.");
+                loginPage();
+            }else if(jsonObj.authstatus === "unauthorised") {
+                alert("Username - password combo was wrong, please try again.");
+                loginPage();
             }else{
-                alert("unauthorized");
-                $("body").html("GET OUTTA TOWN");
+                alert("Something went terribly wrong.");
+                loginPage();
             }
+            return;
         }
     };
     
     xhr.setRequestHeader('ContentType','application/json');
     xhr.send(request);
+}
+
+function landing() {
+    
+    whatAmIPOST();
+    setTimeout(function(){
+        var cltype = getCookie("cltype");
+        document.cookie = ("cltype="+cltype);
+        if(cltype === "company") {
+            document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
+            document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
+        }else if(cltype === "merchant") {
+            // other page
+            return;
+        }else if(cltype === "CCC") {
+            // CCC specific page
+            return;
+        }else if(cltype === "individual"){
+            window.location.href = "buyCap.html";
+            return;
+        }else{
+            alert("Shouldn't be here.");
+            return;
+        }    
+    }, 100); // If out of order, get the waiting time higher
+       
 }
 
 function registerPOST() {
@@ -66,7 +115,13 @@ function registerPOST() {
     // Company Specific
     var firsts = {};
     var lasts = {}; 
+    
+    if(client === 'individual') {
+        object.credit = $("#credit").val();
+    }
+    
     if (client === 'company') {
+        object.credit = $("#credit").val();
         if(document.getElementById("howMany").checkValidity() === false) {
             alert("Please input number of employees between 1 and 5");
             return;
@@ -122,10 +177,112 @@ function registerPOST() {
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
-            if(xhr.responseText === "OK") {
-                $("body").html("SUCCESS registering new account");
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.regstatus === "success") {
+                alert("You have successfully registered a new account.");
+                loginPage();
+            }else if(jsonObj.regstatus === "failure" && jsonObj.reason === "user_exists"){
+                $("#usern").val("");
+                return;
             }else{
-                $("body").html("Something went terribly wrong");
+                alert("Something went terribly wrong.");
+                registerPage();
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function whatAmIPOST() {
+    var object = new Object();
+    object.action = "userkind";
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                document.cookie = "cltype="+jsonObj.client;
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function buyPOST() {
+    var object = new Object();
+    object.action = "buy";
+    object.client = getCookie("cltype");
+    if(object.client === "company") {
+        object.fname = getCookie("fname");
+        object.lname = getCookie("lname");
+    }
+    object.merchant = $("#merhant").val();
+    object.amount   = $("#amount").val();
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.status === "success") {
+                
+            }else{
+                alert("Failure.");
+                return;
+            }
+        }
+    };
+    
+    xhr.setRequestHeader('ContentType','application/json');
+    xhr.send(request);
+}
+
+function buyPagePOST() {
+    var object = new Object();
+    object.action = "getmerchants";
+    
+    var request  = JSON.stringify(object);
+    var url = "cs360";
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onload = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            // Everything went OK
+            var jsonObj = JSON.parse(xhr.responseText);
+            var a = jsonObj.merchants;
+            if(jsonObj.status === "success") {
+                var str = "";
+                str += ("<select id='merchant'>");
+                for(var i = 0 ; i < a.length; i++) {
+                    str += ("<option value='"+a[i].id+"'>"+
+                            a[i].fname + " " + a[i].lname +
+                            "</option>");
+                }
+                str += ("</select>");
+                str += ("<p><label>Amount to pay to the merchant</label>");
+                str += ("<input id=\"amount\" type=\"number\" step=\"0.01\" value=\"0.01\" min=\"0.01\" />");
+                str += ("</p>");
+                str += ("<p><button class=\"button3\" onclick=\"buyPOST()\">Buy Now!</button></p>");
+                $("#grabMe").html(str);
+            }else{
+                alert("Failure.");
+                return;
             }
         }
     };
@@ -149,7 +306,7 @@ function loginPage() {
     window.location.href = "index.html";
 }
 
-function logout() {
+function logOutPOST() {
     var object = new Object();
     object.action= "logout";
     
@@ -160,10 +317,12 @@ function logout() {
     xhr.onload = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
             // Everything OK
-            if(xhr.responseText === "OK") {
+            var jsonObj = JSON.parse(xhr.responseText);
+            if(jsonObj.logoutstatus === "success") {
                 loginPage();
             }else{
-                $("body").html("You owe us money");
+                alert("You did something you shouldn't be doing.");
+                return;
             }
         }
     };
@@ -259,10 +418,10 @@ function returnPagePOST() {
 
 function transactionsPOST() {
     var object = new Object();
-    object.action= "transactions";
+    object.action= "gettransactions";
     
     var request = JSON.stringify(object);
-    var url = "transactions";
+    var url = "transaction";
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.onload = function() {
