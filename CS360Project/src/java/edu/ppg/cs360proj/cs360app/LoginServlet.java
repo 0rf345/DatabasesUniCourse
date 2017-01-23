@@ -117,7 +117,10 @@ public class LoginServlet extends HttpServlet {
 				if(clnt.getClientPass().equals(lq.getUPass())) {
 					session = req.getSession();
 					session.setAttribute("usern", lq.getUName());
-					session.setAttribute("userk", "indiv");
+					if(clnt.getClientUName().equals("CCC"))
+						session.setAttribute("userk", "CCC");
+					else
+						session.setAttribute("userk", "individual");
 					ls.setAuthStatus("authenticated");
 					strLs = gson.toJson(ls);
 					out.print(strLs);
@@ -132,7 +135,7 @@ public class LoginServlet extends HttpServlet {
 				if(clnt.getClientPass().equals(lq.getUPass())) {
 					session = req.getSession();
 					session.setAttribute("usern", lq.getUName());
-					session.setAttribute("userk", "merch");
+					session.setAttribute("userk", "merchant");
 					ls.setAuthStatus("authenticated");
 					strLs = gson.toJson(ls);
 					out.print(strLs);
@@ -146,7 +149,7 @@ public class LoginServlet extends HttpServlet {
 				if(clnt.getClientPass().equals(lq.getUPass())) {
 					session = req.getSession();
 					session.setAttribute("usern", lq.getUName());
-					session.setAttribute("userk", "comp");
+					session.setAttribute("userk", "company");
 					ls.setAuthStatus("authenticated");
 					strLs = gson.toJson(ls);
 					out.print(strLs);
