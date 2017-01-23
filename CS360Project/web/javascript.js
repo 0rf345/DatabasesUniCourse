@@ -79,6 +79,7 @@ function landing() {
             return;
         }else if(cltype === "CCC") {
             // CCC specific page
+            cccPage();
             return;
         }else if(cltype === "individual"){
             window.location.href = "buyCap.html";
@@ -292,6 +293,10 @@ function buyPagePOST() {
 }
 
 // Redirections
+
+function cccPage() {
+    window.location.href = "ccc.html";
+}
 
 function buyPage() {
     window.location.href = "buySome.html";
