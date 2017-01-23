@@ -115,7 +115,13 @@ function registerPOST() {
     // Company Specific
     var firsts = {};
     var lasts = {}; 
+    
+    if(client === 'individual') {
+        object.credit = $("#credit").val();
+    }
+    
     if (client === 'company') {
+        object.credit = $("#credit").val();
         if(document.getElementById("howMany").checkValidity() === false) {
             alert("Please input number of employees between 1 and 5");
             return;
