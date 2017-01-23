@@ -46,24 +46,7 @@ function loginPOST() {
             // Everything OK
             var jsonObj = JSON.parse(xhr.responseText);
             if(jsonObj.authstatus === "authenticated") {
-                
-                var cltype = whatAmIPOST();
-                if(cltype === "company") {
-                    document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
-                    document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
-                }else if(cltype === "merchant") {
-                    // other page
-                    return;
-                }else if(cltype === "CCC") {
-                    // CCC specific page
-                    return;
-                }else if(cltype !== "individual"){
-                    alert("Something went terribly wrong.");
-                    return;
-                }
-                document.cookie = ("cltype="+cltype);
-                
-                window.location.href = "buyCap.html";
+                window.location.href = "landing.html";
             }else if(jsonObj.authstatus === "already_authenticated"){
                 alert("You have already loggen-in from another device and never logged-out.");
                 loginPage();
@@ -79,6 +62,27 @@ function loginPOST() {
     
     xhr.setRequestHeader('ContentType','application/json');
     xhr.send(request);
+}
+
+function landing() {
+    var cltype = whatAmIPOST();
+    document.cookie = ("cltype="+cltype);
+    if(cltype === "company") {
+        document.cookie = ("fname="+prompt("Please input your first name as per registration", ""));
+        document.cookie = ("lname="+prompt("Please input your last name as per registration", ""));
+    }else if(cltype === "merchant") {
+        // other page
+        return;
+    }else if(cltype === "CCC") {
+        // CCC specific page
+        return;
+    }else if(cltype === "individual"){
+        window.location.href = "buyCap.html";
+        return;
+    }else{
+        alert("Shouldn't be here.");
+        return;
+    }       
 }
 
 function registerPOST() {
