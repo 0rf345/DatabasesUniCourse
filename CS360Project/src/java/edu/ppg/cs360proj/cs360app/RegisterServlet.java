@@ -26,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import edu.ppg.cs360proj.cs360db.DBCommon;
+import java.math.BigDecimal;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,6 +45,8 @@ class RegisterRequest {
 	private String userp;
 	@SerializedName("client")
 	private String userk;
+	@SerializedName("credit")
+	private String creditlmt;
 	@SerializedName("first")
 	private String fname;
 	@SerializedName("last")
@@ -65,6 +68,10 @@ class RegisterRequest {
 		return userk;
 	}
 
+	public String getCreditLimit() {
+		return creditlmt;
+	}
+	
 	public String getFName() {
 		return fname;
 	}
@@ -80,10 +87,10 @@ class RegisterRequest {
 	public ArrayList<EmployeeInfo> getEmployees() {
 		return employees;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "RegisterRequest{" + "usern=" + usern + ", userp=" + userp + ", userk=" + userk + ", fname=" + fname + ", lname=" + lname + ", name=" + name + ", employees=" + employees + '}';
+		return "RegisterRequest{" + "usern=" + usern + ", userp=" + userp + ", userk=" + userk + ", creditlmt=" + creditlmt + ", fname=" + fname + ", lname=" + lname + ", name=" + name + ", employees=" + employees + '}';
 	}
 }
 
@@ -161,7 +168,7 @@ public class RegisterServlet extends HttpServlet {
 			String strRs = "";
 		
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.YEAR, 3); // to get previous year add -1
+			cal.add(Calendar.YEAR, 3);
 			Date expDate = cal.getTime();
 			DateFormat dateFrmt = new SimpleDateFormat("YYYY-MM-DD");
 			String strExpDate = dateFrmt.format(expDate);
@@ -206,6 +213,8 @@ public class RegisterServlet extends HttpServlet {
 				indiv.setClientUName(rq.getUName());
 				indiv.setClientPass(rq.getUPass());
 				indiv.setExpDate(strExpDate);
+				indiv.setCreditLimit(BigDecimal.valueOf(Double.parseDouble(rq.getCreditLimit())));
+				indiv.setAvailableCredit(BigDecimal.valueOf(Double.parseDouble(rq.getCreditLimit())));
 				indiv.setfName(rq.getFName());
 				indiv.setlName(rq.getLName());
 				IndividualDB.addIndividual(indiv);
@@ -222,6 +231,8 @@ public class RegisterServlet extends HttpServlet {
 				cmp.setClientUName(rq.getUName());
 				cmp.setClientPass(rq.getUPass());
 				cmp.setExpDate(strExpDate);
+				cmp.setCreditLimit(BigDecimal.valueOf(Double.parseDouble(rq.getCreditLimit())));
+				cmp.setAvailableCredit(BigDecimal.valueOf(Double.parseDouble(rq.getCreditLimit())));
 				cmp.setCompanyName(rq.getName());
 				for(EmployeeInfo empinfo : rq.getEmployees()) {
 					Employee emp = new Employee();

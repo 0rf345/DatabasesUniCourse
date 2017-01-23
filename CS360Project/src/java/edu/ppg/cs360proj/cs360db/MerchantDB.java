@@ -202,7 +202,7 @@ public class MerchantDB extends ClientDB {
 			"	fname        varchar(64) not null,\n" +
 			"	lname        varchar(64) not null,\n" +
 			"	commission   decimal(5,2) not null default 5.00,\n" +
-			"	profit       decimal(15,2) not null\n" +
+			"	profit       decimal(15,2) not null default 0\n" +
 			") engine = InnoDB;";
 		
 		Connection con = DBCommon.getConnection();
